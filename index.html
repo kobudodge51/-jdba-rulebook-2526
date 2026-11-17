@@ -4,6 +4,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#c2185b">
 <title>ドッジボール競技規則 2025-2026 電子書籍版</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root{--accent:#c2185b;--accent2:#f8d7e6;--ink:#1d1d1f;--paper:#fffdfb;--fs:16px;--colh:600px;--ok:#2e7d32;--ng:#c62828}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -20,6 +21,7 @@ html,body{overscroll-behavior:none}
 #main{flex:1;position:relative;display:flex;flex-direction:column;min-height:0}
 #view{flex:1;position:relative;overflow:hidden;background:var(--paper);touch-action:pan-y;user-select:none;-webkit-user-select:none}
 #view.spread::after{content:"";position:absolute;top:24px;bottom:24px;left:50%;width:1px;background:#e8d5de;pointer-events:none}
+#view:not(.ready) #book{visibility:hidden}
 #book{position:absolute;top:0;left:0;height:100%;display:flex;font-size:var(--fs);line-height:1.8;will-change:transform}
 .pgv{flex:none;height:100%;overflow:hidden;position:relative}.pgv.scroll{overflow-y:auto;-webkit-overflow-scrolling:touch}
 .pgv>:first-child{margin-top:0}
@@ -70,6 +72,8 @@ mark{background:#ffe066;color:inherit;padding:0;border-radius:2px}mark.cur{backg
 #toc a{display:block;text-decoration:none;color:var(--ink);padding:6px 16px;font-size:14px;line-height:1.45}
 #toc a.t1{font-weight:800;color:var(--accent);margin-top:10px}#toc a.t2{font-weight:700;padding-left:22px}#toc a.t3{padding-left:34px;font-size:13px;color:#444}
 #scrim{position:fixed;inset:0;background:#0006;z-index:19;display:none}#scrim.on{display:block}
+#bar #back{display:none;width:auto;height:34px;align-items:center;gap:4px;background:#fff;color:var(--accent);border:none;border-radius:999px;padding:0 14px 0 10px;font-size:13px;font-weight:800;box-shadow:0 2px 8px #0003;cursor:pointer;white-space:nowrap;flex:0 1 auto;overflow:hidden}#bar #back b{font-size:17px;line-height:1}
+body.t-read #bar #back.on{display:flex;animation:pop .3s ease-out}body.t-read.hasback #ttl{display:none}@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
 #nav{white-space:nowrap;position:absolute;left:50%;transform:translateX(-50%);bottom:60px;background:#222d;color:#fff;border-radius:22px;padding:4px;display:none;gap:2px;z-index:8;align-items:center;font-size:13px}
 body.t-read #nav.on{display:flex}#nav button{background:none;border:none;color:#fff;font-size:14px;padding:6px 10px;cursor:pointer;white-space:nowrap}#nInfo{min-width:60px;text-align:center}
 /* cards / common */
@@ -107,9 +111,80 @@ body.t-read #nav.on{display:flex}#nav button{background:none;border:none;color:#
 .rv .go{display:inline-block;margin-top:6px;font-size:13px;color:var(--accent);font-weight:700;cursor:pointer;background:none;border:none;padding:0}
 .hist{font-size:13px;line-height:1.8}
 .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#222e;color:#fff;padding:8px 14px;border-radius:10px;font-size:13px;z-index:30;display:none}
+
+#splash{position:fixed;inset:0;z-index:100;overflow:hidden;background:radial-gradient(75% 60% at 50% 42%,#a8164f 0%,#7d0f3a 50%,#4a0821 100%);color:#2b2118;display:flex;align-items:center;justify-content:center;transition:opacity .9s ease,transform 1s ease;cursor:pointer;user-select:none;-webkit-user-select:none;font-family:"Noto Serif JP","Hiragino Mincho ProN","Yu Mincho","YuMincho",serif;perspective:1600px}
+#splash.out{opacity:0;transform:scale(1.06);pointer-events:none}
+#splash .glow{position:absolute;width:120vmax;height:120vmax;left:50%;top:44%;transform:translate(-50%,-50%);background:radial-gradient(circle,#ffd6e633 0%,#ffc1d814 24%,transparent 52%);opacity:0;animation:sfade 2.2s .1s ease-out forwards}
+#splash .lat{position:absolute;inset:0;opacity:0;animation:sfade 2s .2s ease-out forwards;background:repeating-linear-gradient(90deg,transparent 0 46px,#ffffff06 46px 48px)}
+@keyframes sfade{to{opacity:1}}
+#splash .book{position:relative;width:min(58vw,250px);height:calc(min(58vw,250px) * 1.414);transform-style:preserve-3d;opacity:0;transform:translateY(16px) rotateX(6deg);animation:bookin 1.3s .25s cubic-bezier(.2,.7,.2,1) forwards}
+@keyframes bookin{to{opacity:1;transform:none}}
+#splash .page{position:absolute;inset:0;border-radius:2px 6px 6px 2px;background:#fbf4ef;background-image:radial-gradient(#00000008 1px,transparent 1px);background-size:5px 5px;box-shadow:0 30px 60px #3a0618aa,inset 0 0 40px #c2185b14;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:18px;gap:10px}
+#splash .page .p1{font-size:9px;letter-spacing:.25em;color:#c2185b;line-height:1.7}
+#splash .page .p2{writing-mode:vertical-rl;white-space:nowrap;font-size:clamp(20px,6vw,26px);font-weight:600;letter-spacing:.18em;color:#7a0f3c;line-height:1.5}
+#splash .page .p3{font-size:10px;color:#6b5843;letter-spacing:.06em;line-height:1.9;white-space:nowrap}
+#splash .page .seal{width:30px;height:30px;border:1.5px solid #c2185b;color:#c2185b;border-radius:3px;font-size:10px;line-height:1.1;display:flex;align-items:center;justify-content:center;text-align:center;letter-spacing:0}
+#splash .page>*{opacity:0;animation:sfade 1s 2.3s ease forwards}
+#splash .cover{position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;animation:open 1.6s 1.55s cubic-bezier(.55,.05,.25,1) forwards}
+@keyframes open{0%{transform:rotateY(0)}100%{transform:rotateY(-158deg)}}
+#splash .front,#splash .back{position:absolute;inset:0;border-radius:2px 6px 6px 2px;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+#splash .front{overflow:hidden;background:linear-gradient(135deg,#e2457f 0%,#c2185b 48%,#9c124a 100%);box-shadow:0 30px 60px #3a0618cc,inset 0 0 0 1px #00000030;display:flex;align-items:center;justify-content:center}
+#splash .front::before{content:"";position:absolute;inset:10px;border:1px solid #f6dfb0;border-radius:2px;box-shadow:inset 0 0 0 4px transparent,inset 0 0 0 5px #f6dfb066}
+#splash .front::after{content:"";position:absolute;top:0;bottom:0;left:10px;width:2px;background:linear-gradient(#00000000,#0000004d,#00000000)}
+#splash .ft{position:static;display:flex;flex-direction:column;align-items:center;gap:10px;color:#fbe9c6}
+#splash .ft .t{writing-mode:vertical-rl;white-space:nowrap;font-size:clamp(16px,4.6vw,21px);font-weight:600;letter-spacing:.1em;text-shadow:none;filter:drop-shadow(0 1px 1px #6b0b30aa);background:linear-gradient(180deg,#fff6e0,#f3d9a4 55%,#e2bd7c);-webkit-background-clip:text;background-clip:text;color:transparent}
+#splash .ft .orn{width:44px;height:1px;background:#f6dfb0}
+#splash .ft .y{font-size:11px;letter-spacing:.2em;color:#fbe9c6;white-space:nowrap}
+#splash .ft .shine{position:absolute;inset:-40%;background:linear-gradient(105deg,transparent 40%,#fff3 50%,transparent 60%);transform:translateX(-60%);animation:shine 1.1s .7s ease-in-out forwards}
+@keyframes shine{to{transform:translateX(60%)}}
+#splash .back{transform:rotateY(180deg);background:#f7e6ee;box-shadow:inset -20px 0 30px #0000001f}
+#splash .cap{position:absolute;bottom:calc(30px + env(safe-area-inset-bottom));left:0;right:0;text-align:center;color:#ffd9e8;font-size:12px;letter-spacing:.3em;opacity:0;animation:sfade 1.2s .8s forwards}
+#splash .skip{position:absolute;top:calc(14px + env(safe-area-inset-top));right:16px;font-size:11px;color:#ffd9e8aa;letter-spacing:.1em}
+@media (prefers-reduced-motion:reduce){#splash *{animation-duration:.01s!important;animation-delay:0s!important}}
+
+#tAsk.on{display:flex;flex-direction:column;overflow:hidden}
+.askhead{flex:none;display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:#fff;border-bottom:1px solid #eee}
+#askMode{font-size:12px;font-weight:800;color:#555;background:#eee;border-radius:999px;padding:4px 10px}#askMode.ai{background:#e8f5e9;color:#2e7d32}
+#askLog{flex:1;overflow:auto;padding:14px 12px 20px;-webkit-overflow-scrolling:touch}
+.msg{max-width:88%;margin:0 0 12px;padding:10px 13px;border-radius:16px;line-height:1.7;font-size:15px;word-break:break-word}
+.msg.me{margin-left:auto;background:var(--accent);color:#fff;border-bottom-right-radius:4px}
+.msg.bot{background:#fff;border-bottom-left-radius:4px;box-shadow:0 1px 3px #0002;max-width:94%}
+.msg .ah{display:block;margin-top:6px;color:#7a0f3c}
+.cite{display:inline-block;margin:2px 3px 2px 0;background:var(--accent2);color:#7a0f3c;border:none;border-radius:8px;padding:2px 8px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
+.refs{margin-top:8px}.tag{display:inline-block;font-size:11px;font-weight:800;color:#fff;background:#7a0f3c;border-radius:6px;padding:1px 8px;margin-bottom:6px}
+.rel{border-top:1px dashed #e3c4d2;padding:6px 0}.rel .sn{font-size:13px;color:#444;line-height:1.55}
+.disc2{font-size:11px;color:#888;margin-top:8px;line-height:1.5}
+.qchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.qchip{background:#fff;border:1.5px solid var(--accent);color:var(--accent);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;text-align:left}
+.qchip:active{background:var(--accent2)}
+.askbar{flex:none;display:flex;gap:8px;align-items:flex-end;padding:8px 10px;background:#fff;border-top:1px solid #eee}
+#askIn{flex:1;resize:none;font-size:16px;line-height:1.5;padding:9px 12px;border:2px solid var(--accent);border-radius:14px;outline:none;font-family:inherit;max-height:120px}
+.dots i{display:inline-block;width:7px;height:7px;margin:0 2px;background:#c2185b;border-radius:50%;animation:dot 1s infinite}.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes dot{0%,80%,100%{opacity:.25;transform:scale(.8)}40%{opacity:1;transform:none}}
+
+#askHist{position:absolute;inset:0;background:#f7f3f5;z-index:4;display:none;flex-direction:column}#askHist.on{display:flex}
+#askHist .ph2{display:flex;align-items:center;padding:10px 12px;background:#fff;border-bottom:1px solid #eee;color:var(--accent)}
+#askHL{flex:1;overflow:auto;padding:4px 12px 30px}
+.hi{background:#fff;border-radius:12px;margin-bottom:8px;box-shadow:0 1px 3px #0001;overflow:hidden}
+.hi summary{list-style:none;padding:10px 12px;cursor:pointer}.hi summary::-webkit-details-marker{display:none}
+.hi .hd{display:block;font-size:11px;color:#999}.hi .hq{display:block;font-weight:800;line-height:1.5;margin-top:2px}
+.hi[open] summary{border-bottom:1px dashed #e3c4d2;background:#fdf5f8}.hi .ha{padding:10px 12px 0;line-height:1.7;font-size:14px}.hi .row{padding:0 12px 12px}
+#tAsk{position:absolute}
+.think{font-size:13px;color:#555;line-height:1.8}.think b{color:#7a0f3c;display:block;margin-bottom:2px}.think .now{color:#222;font-weight:700}.think .dots i{width:5px;height:5px}
 </style></head><body class="t-read">
+<div id="splash" aria-label="起動画面">
+ <div class="glow"></div><div class="lat"></div>
+ <div class="skip">タップでひらく</div>
+ <div class="book">
+  <div class="page"><div class="p1">OFFICIAL RULE ＆ REFEREE TEXT BOOK</div><div class="p2">公式ルール</div><div class="seal">規<br>則</div><div class="p3">２０２５―２０２６年度版<br>一般財団法人 日本ドッジボール協会</div></div>
+  <div class="cover"><div class="front"><div class="ft"><div class="shine"></div><div class="y">J.D.B.A.</div><div class="orn"></div><div class="t">ドッジボール競技規則</div><div class="orn"></div><div class="y">２０２５ — ２０２６</div></div></div><div class="back"></div></div>
+ </div>
+ <div class="cap">電 子 書 籍 版</div>
+</div>
+</div>
+
 <div id="app">
- <div id="bar"><button id="bToc" class="rd" aria-label="目次">☰</button><div class="ttl" id="ttl">ドッジボール競技規則 2025-2026</div>
+ <div id="bar"><button id="bToc" class="rd" aria-label="目次">☰</button><button id="back"><b>←</b><span></span></button><div class="ttl" id="ttl">ドッジボール競技規則 2025-2026</div>
   <button class="fs rd" id="bSm" aria-label="文字を小さく">A-</button><button class="fs rd" id="bLg" aria-label="文字を大きく">A+</button></div>
  <div id="main">
   <div id="view"><div id="book"><section class="cover"><div class="cv-in">
@@ -1726,14 +1801,18 @@ body.t-read #nav.on{display:flex}#nav button{background:none;border:none;color:#
   </div></section>
 
   <section class="tab" id="tQuiz"><div class="wrap" id="quiz"></div></section>
+  <section class="tab" id="tAsk"><div class="askhead"><span id="askMode">📚 ルールブック検索モード</span><span><button class="chip" id="askHistBtn">📜 相談履歴</button> <button class="chip" id="askClr">リセット</button></span></div>
+   <div id="askHist"><div class="ph2"><b>📜 相談履歴</b><button class="x" id="askHX">×</button></div><div style="padding:8px 12px"><input id="askHF" class="inp" style="width:100%" type="search" placeholder="履歴の中を探す（例：ワンタッチ）"><div class="small" id="askHNote" style="margin-top:6px"></div></div><div id="askHL"></div></div><div id="askLog"></div>
+   <div class="askbar"><textarea id="askIn" rows="1" placeholder="ルールについて質問を入力" enterkeyhint="send"></textarea><button class="btn" id="askSend">送信</button></div></section>
  </div>
- <nav id="tabs"><button data-t="read" class="on"><b>📖</b>読む</button><button data-t="search"><b>🔍</b>検索</button><button data-t="quiz"><b>✅</b>問題集</button></nav>
+ <nav id="tabs"><button data-t="read" class="on"><b>📖</b>読む</button><button data-t="search"><b>🔍</b>検索</button><button data-t="quiz"><b>✅</b>問題集</button><button data-t="ask"><b>💬</b>ルール相談</button></nav>
 </div>
 <div id="scrim"></div>
 <div id="toc"><div class="ph">目次<button class="x" id="tocX">×</button></div><div class="lst"><a class="t2" href="#s2">はじめに</a><a class="t1" href="#s3">公式ルール Official Rule</a><a class="t2" href="#s4">【第1章】チーム</a><a class="t3" href="#s5">第101条　クラス</a><a class="t3" href="#s6">第102条　チーム編成</a><a class="t3" href="#s7">第103条　キャプテン</a><a class="t3" href="#s8">第104条　プレイヤーのユニフォーム</a><a class="t3" href="#s9">第105条　スターティングラインナップ</a><a class="t3" href="#s10">第106条　プレイヤーの交代（メンバーチェンジ）</a><a class="t3" href="#s11">第107条　緊急プレイヤー</a><a class="t3" href="#s12">第108条　抗議・アピール</a><a class="t2" href="#s13">【第2章】競技場</a><a class="t3" href="#s14">第201条　コート及びゾーン</a><a class="t3" href="#s15">第202条　コートサイズ</a><a class="t3" href="#s16">第203条　センターサークル</a><a class="t3" href="#s17">第204条　プレイヤーズベンチ</a><a class="t3" href="#s18">第205条　ペナルティーベンチ</a><a class="t2" href="#s19">【第3章】用具</a><a class="t3" href="#s20">第301条　ボール</a><a class="t3" href="#s21">第302条　禁止用具等</a><a class="t2" href="#s22">【第4章】罰則・指導</a><a class="t3" href="#s23">第401条　罰則</a><a class="t3" href="#s24">第402条　警告</a><a class="t3" href="#s25">第403条　退場</a><a class="t3" href="#s26">第404条　失格</a><a class="t3" href="#s27">第405条　指導</a><a class="t2" href="#s28">【第5章】ゲームオフィシャル</a><a class="t3" href="#s29">第501条　ゲームオフィシャルの任命</a><a class="t3" href="#s30">第502条　コートマスター</a><a class="t3" href="#s31">第503条　記録員</a><a class="t3" href="#s32">第504条　計時員</a><a class="t2" href="#s33">【第6章】審判員</a><a class="t3" href="#s34">第601条　審判員の任命</a><a class="t3" href="#s35">第602条　主審</a><a class="t3" href="#s36">第603条　副審</a><a class="t3" href="#s37">第604条　線審</a><a class="t2" href="#s38">【第7章】競技方法</a><a class="t3" href="#s39">第701条　試合時間</a><a class="t3" href="#s40">第702条　試合形式</a><a class="t3" href="#s41">第703条　試合開始</a><a class="t3" href="#s42">第704条　試合終了</a><a class="t3" href="#s43">第705条　試合放棄・不戦勝</a><a class="t3" href="#s44">第706条　不完全となったチーム</a><a class="t3" href="#s45">第707条　セットアップ</a><a class="t3" href="#s46">第708条　コートチェンジ</a><a class="t3" href="#s47">第709条　オフィシャルタイムアウト</a><a class="t3" href="#s48">第710条　試合の勝敗</a><a class="t2" href="#s49">【第8章】プレイの規定</a><a class="t3" href="#s50">第801条　キャッチ</a><a class="t3" href="#s51">第802条　ワンタッチ</a><a class="t3" href="#s52">第803条　アタック</a><a class="t3" href="#s53">第804条　パス</a><a class="t3" href="#s54">第805条　アウト</a><a class="t3" href="#s55">第806条　アシストキャッチ</a><a class="t3" href="#s56">第807条　セーフ</a><a class="t3" href="#s57">第808条　ヘルドボール</a><a class="t3" href="#s58">第809条　ボールデッド</a><a class="t3" href="#s59">第810条　ボールの支配権</a><a class="t3" href="#s60">第811条　内外野への移動</a><a class="t3" href="#s61">第812条　内野復帰権の放棄</a><a class="t3" href="#s62">第813条　プレイヤー間のボールの受け渡し</a><a class="t3" href="#s63">第814条　ジャンプボール</a><a class="t3" href="#s64">第815条　試合再開</a><a class="t3" href="#s65">第816条　内野復帰権</a><a class="t2" href="#s66">【第9章】ファール</a><a class="t3" href="#s67">第901条　ファール</a><a class="t3" href="#s68">第902条　ファイブパス</a><a class="t3" href="#s69">第903条　ダブルパス</a><a class="t3" href="#s70">第904条　オーバーライン</a><a class="t3" href="#s71">第905条　ホールディング</a><a class="t3" href="#s72">第906条　ヘッドアタック</a><a class="t3" href="#s73">第907条　タッチ・ザ・ボディー</a><a class="t3" href="#s74">第908条　ダブルタッチ</a><a class="t3" href="#s75">第909条　インターフェアー</a><a class="t3" href="#s76">第910条　キープ・フォー・ファイブ</a><a class="t3" href="#s77">第911条　フライングタップ</a><a class="t3" href="#s78">第912条　ダブルタップ</a><a class="t3" href="#s79">第913条　ジャンパーアタック</a><a class="t3" href="#s80">第914条　ジャンパーキャッチ</a><a class="t3" href="#s81">第915条　フライングスロー</a><a class="t3" href="#s82">第916条　アウトプレイ</a><a class="t3" href="#s83">第917条　イリーガル・スロー</a><a class="t3" href="#s84">第918条　イリーガル・キャッチ</a><a class="t3" href="#s85">第919条　テクニカルファール</a><a class="t3" href="#s86">第920条　ファールの連続・重複</a><a class="t3" href="#s87">第921条　アドバンテージ</a><a class="t1" href="#s88">主審・副審・線審の動作</a><a class="t2" href="#s89">主審の動作</a><a class="t2" href="#s90">副審の動作</a><a class="t2" href="#s91">線審の動作</a><a class="t1" href="#s92">審判テキストブック Official Referee Text Book</a><a class="t2" href="#s93">第1章　チーム</a><a class="t3" href="#s94">クラス</a><a class="t3" href="#s95">チーム編成</a><a class="t3" href="#s96">スターティングラインナップ</a><a class="t3" href="#s97">プレイヤーの交代（メンバーチェンジ）</a><a class="t2" href="#s98">第2章　競技場</a><a class="t3" href="#s99">コートの作成</a><a class="t3" href="#s100">プレイヤーズベンチ</a><a class="t2" href="#s101">第3章　用具</a><a class="t2" href="#s102">第4章　罰則・指導</a><a class="t2" href="#s103">第5章　ゲームオフィシャル</a><a class="t2" href="#s104">第6章　審判員</a><a class="t3" href="#s105">審判員の心得</a><a class="t3" href="#s106">審判員の事前チェック</a><a class="t3" href="#s107">主審</a><a class="t3" href="#s108">主審の手順</a><a class="t3" href="#s109">試合終了時の内野人数の報告について</a><a class="t3" href="#s110">主審は全てのファールを判定する</a><a class="t3" href="#s111">主審の留意点</a><a class="t3" href="#s112">副審</a><a class="t3" href="#s114">線審</a><a class="t2" href="#s121">第7章　競技方法</a><a class="t3" href="#s122">オフィシャルタイムアウト</a><a class="t3" href="#s123">オフィシャルタイムアウト時の計時の処理</a><a class="t3" href="#s124">オフィシャルタイムアウト後のボールの支配権</a><a class="t3" href="#s125">オフィシャルタイムアウト時のボールの支配権</a><a class="t3" href="#s126">ヴィクトリーポイント（Vポイント）ゲーム</a><a class="t2" href="#s127">第8章　プレイの規定</a><a class="t3" href="#s128">アシストキャッチ</a><a class="t3" href="#s129">アウト判定後、外野プレイヤーが内野に復帰できない条件</a><a class="t3" href="#s130">内外野への移動</a><a class="t3" href="#s131">内野への復帰について</a><a class="t3" href="#s132">ジャンプボール</a><a class="t3" href="#s133">試合再開</a><a class="t3" href="#s134">試合再開時の審判員の留意点</a><a class="t3" href="#s135">アタックについて</a><a class="t3" href="#s136">競技規則・第809条④の解釈について</a><a class="t2" href="#s137">第9章　ファール</a><a class="t3" href="#s138">ファール</a><a class="t3" href="#s139">ファイブパス</a><a class="t3" href="#s140">ダブルパス</a><a class="t3" href="#s141">オーバーライン</a><a class="t3" href="#s142">ホールディング</a><a class="t3" href="#s143">ヘッドアタック</a><a class="t3" href="#s144">タッチ・ザ・ボディー</a><a class="t3" href="#s145">ダブルタッチ</a><a class="t3" href="#s146">インターフェアー</a><a class="t3" href="#s147">キープ・フォー・ファイブ</a><a class="t3" href="#s148">ダブルタップ</a><a class="t3" href="#s149">ジャンパーキャッチ</a><a class="t3" href="#s150">ジャンパーアタック</a><a class="t3" href="#s151">フライングスロー</a><a class="t3" href="#s152">アウトプレイ</a><a class="t3" href="#s153">イリーガル・スロー</a><a class="t3" href="#s154">イリーガル・キャッチ</a><a class="t3" href="#s155">ファールの連続・重複、他</a><a class="t3" href="#s156">連続してファールが起きた時の処置</a><a class="t3" href="#s157">テクニカルファール</a><a class="t3" href="#s158">アドバンテージ</a><a class="t2" href="#s159">主審・副審・線審の動作</a><a class="t2" href="#s160">各審判員、競技委員長、審判部長に</a><a class="t2" href="#s161">審判員の手順（ベンチ前整列〜セットアップ）</a><a class="t2" href="#s162">線審の動き（試合中）</a><a class="t2" href="#s163">補足・追加事項</a><a class="t3" href="#s164">ライン際でのインプレイゾーン及びボールデッドゾーンの解釈</a><a class="t2" href="#s165">審判統一基本動作と役割</a><a class="t3" href="#s166">【主審】</a><a class="t3" href="#s167">【副審】</a><a class="t3" href="#s168">【線審】</a><a class="t3" href="#s169">【ゲームオフィシャル】</a><a class="t1" href="#s170">実技統一事項及び統一基本動作</a><a class="t2" href="#s171">実技統一事項</a><a class="t3" href="#s172">「オフィシャルタイムアウト」後の対応について</a><a class="t3" href="#s173">オフィシャルタイムアウト継続中に、再度協議が必要と判断した場合</a><a class="t3" href="#s174">ファール発生に伴い、アシストキャッチ不成立となり、「アウト」を確定させる場合</a><a class="t3" href="#s175">主審及び副審のコートに正対して行う動作とプレイヤーに向けて行う動作</a><a class="t3" href="#s176">頭部付近にボールが当たった場合（最終判定がヘッドアタックに至ったとき）</a><a class="t2" href="#s177">統一基本動作</a><a class="t3" href="#s178">1. 「指導」「警告」「退場」「失格」での各審判員の動き</a><a class="t3" href="#s179">2. 複数セットの試合で、セット終了時及び次セット開始前の各審判員の動作について</a><a class="t3" href="#s180">3. 線審のオフィシャルタイムアウト時の動作</a><a class="t3" href="#s181">4. 副審のダブルタッチファール判定について</a><a class="t3" href="#s182">5. 副審のアドバンテージについて</a><a class="t3" href="#s183">6. タイムイン時の定位置</a><a class="t3" href="#s184">7. 「警告」イエローカードを提示する手順及び仕方（プレイヤー・監督等）</a><a class="t3" href="#s185">8. 「退場」レッドカードを提示する手順及び仕方（プレイヤー・監督等）</a><a class="t3" href="#s186">9. 「失格」を宣告するとき</a><a class="t3" href="#s187">10. 「指導」を与える場合</a><a class="t3" href="#s188">11. 不完全となった場合</a><a class="t3" href="#s189">12. 「試合開始前」の各審判員への確認・ジャンプボールの手順</a><a class="t3" href="#s190">13. 「ジャンプボール」のやり直し</a><a class="t3" href="#s191">14. 「ヘルドボール」の対応</a><a class="t3" href="#s192">15. 「ヘッドアタック」後の報告</a><a class="t3" href="#s193">16. 「緊急プレイヤー」との交代方法</a><a class="t3" href="#s194">17. 「ヴィクトリーポイント（Vポイント）ゲーム」採用の場合</a><a class="t3" href="#s195">18. 「複数セット試合」のセットカウント報告について</a><a class="t2" href="#s196">【ケーススタディ：No1】</a><a class="t3" href="#s197">1. アウトプレイをしているプレイヤーに対する投球</a><a class="t3" href="#s198">2-1. アウトプレイをしているプレイヤーに対するヘッドアタック</a><a class="t3" href="#s199">2-2. ラインをまたいでいるまたは踏んでいるプレイヤーに対するヘッドアタック</a><a class="t2" href="#s200">【ケーススタディ：No2】</a><a class="t3" href="#s201">ジャンプボール（タップ）後のジャンパーに関わる事象について</a><a class="t1" href="#s202">JDBA公式ルールに関するお問い合わせ</a><a class="t1" href="#s203">奥付</a></div></div>
 <div class="toast" id="toast"></div>
 <script>
 const QZ=[{"r": "第101条", "k": "第101条", "a": 1, "q": "クラスには「幼児の部」がある。", "e": "第101条①に「幼児の部」が定められています。"}, {"r": "第102条", "k": "第102条", "a": 0, "q": "チームはプレイヤー10名以上20名以内で編成する。", "e": "プレイヤーは12名以上20名以内です（第102条1)）。"}, {"r": "第102条", "k": "第102条", "a": 0, "q": "チーム役員は、監督・コーチ・マネージャーにトレーナーを加えた4名まで登録できる。", "e": "チーム役員は監督・コーチ・マネージャーの3名が上限です（第102条1)）。"}, {"r": "第102条", "k": "第102条", "a": 0, "q": "監督は、コーチやマネージャーを兼務することはできない。", "e": "監督は一人でコーチ・マネージャーを兼務できます（第102条1)）。"}, {"r": "第102条", "k": "第102条", "a": 0, "q": "小学生の部では、監督は20歳以上でなければならない。", "e": "監督は成人（18歳以上・当該年度4月2日現在）であればよいとされています（第102条2)）。"}, {"r": "第102条", "k": "第102条", "a": 0, "q": "中学生の部では、監督がプレイヤーを兼任することができる。", "e": "監督等の兼任プレイヤーが認められるのは一般の部だけです（第102条3)）。"}, {"r": "第103条", "k": "第103条", "a": 1, "q": "登録されたキャプテンが不在の場合は、他のプレイヤーが代行できる。", "e": "第103条2)のとおりです。"}, {"r": "第105条", "k": "第105条", "a": 0, "q": "第1セット開始時（ジャンプボール時）には、コート上に11名以上のプレイヤーがいれば試合を始められる。", "e": "第1セット開始時には、コート上に12名のプレイヤーが出場していなければなりません（第105条1)）。"}, {"r": "第106条", "k": "第106条", "a": 0, "q": "セット中でも、監督の申し出があればいつでもプレイヤーを交代できる。", "e": "セット中の交代はできません（第106条1)）。負傷などの場合は例外です。"}, {"r": "第106条", "k": "第106条", "a": 0, "q": "複数セットの試合でも、セット間にプレイヤーを交代することはできない。", "e": "セット間の休息時間中の交代は認められています（第106条2)）。"}, {"r": "第107条", "k": "第107条", "a": 1, "q": "負傷者が出ても、緊急プレイヤーを必ず出さなければならないわけではない。", "e": "第107条1)①に「必ずしも出さなくてもよい」とあります。"}, {"r": "第107条", "k": "第107条", "a": 0, "q": "負傷で交代したプレイヤーは、治療が終われば同じセット中に復帰できる。", "e": "そのセットは復帰できません（第107条2)）。次のセットは試合開始からプレイできます。"}, {"r": "第107条", "k": "第107条", "a": 1, "q": "負傷で交代したプレイヤーは、次のセットは試合開始からプレイできる。", "e": "第107条2)のただし書きのとおりです。"}, {"r": "第108条", "k": "第108条", "a": 0, "q": "判定に納得できない場合、キャプテンは審判員に抗議できる。", "e": "審判員に対して抗議・アピールはできません（第108条）。"}, {"r": "第108条", "k": "第108条", "a": 1, "q": "試合終了後、監督のみコートマスターに確認することができる。", "e": "第108条のただし書きのとおりです。"}, {"r": "第201条", "k": "第201条", "a": 0, "q": "プレイヤーズゾーンは外野ラインから3メートルとする。", "e": "プレイヤーズゾーンは外野ラインから2メートルです（第201条3)）。"}, {"r": "第201条", "k": "第201条", "a": 0, "q": "ラインの幅は3センチメートル以上5センチメートル以内とする。", "e": "ラインの幅は5センチメートル以上7センチメートル以内です（第201条4)）。"}, {"r": "第201条", "k": "第201条", "a": 1, "q": "ラインはコートの内側に引くが、センターラインは内野を二等分した線とする。", "e": "第201条5)のとおりです。"}, {"r": "第201条", "k": "第201条", "a": 1, "q": "インプレイゾーンとボールデッドゾーンを合わせてプレイヤーズゾーンという。", "e": "第201条2)・図1のとおりです。"}, {"r": "第203条", "k": "第203条", "a": 1, "q": "小学生のコートのセンターサークルは、半径1.5メートルの円である。", "e": "第203条①のとおりです。"}, {"r": "第203条", "k": "第203条", "a": 0, "q": "一般男子のコートのセンターサークルは、半径2.5メートルの円である。", "e": "小学生・中学生女子以外は、半径1.5メートル以上2.0メートル以内です（第203条②）。"}, {"r": "第202条", "k": "第202条", "a": 1, "q": "小学生のコートの内野は、片側10メートル×10メートルである。", "e": "図2のとおり、内野は全体で20m×10m（片側10m×10m）です。"}, {"r": "第202条", "k": "第202条", "a": 0, "q": "中学生女子は、一般女子と同じサイズのコートを使う。", "e": "中学生女子は小学生と同じコート（図2）を使います（第202条2)）。"}, {"r": "第204条", "k": "第204条", "a": 1, "q": "監督等と控えプレイヤーは、審判員またはゲームオフィシャルの許可なくプレイヤーズベンチを離れてはならない。", "e": "第204条2)のとおりです。"}, {"r": "第205条", "k": "第205条", "a": 0, "q": "ペナルティーベンチは、各チームのプレイヤーズベンチの横に設置する。", "e": "ペナルティーベンチは主審後方のプレイヤーズゾーン外に、一辺1メートルの正方形で設置します（第205条）。"}, {"r": "第205条", "k": "第205条", "a": 0, "q": "ペナルティーベンチは両チーム共用で1つ設置する。", "e": "ペナルティーベンチは各チームに設置します（第205条）。"}, {"r": "第301条", "k": "第301条", "a": 0, "q": "ボールは、大会主催者が用意すればどのメーカーのボールでも公式試合に使用できる。", "e": "ボールはJ.D.B.A.公認球を使用します（第301条1)）。"}, {"r": "第302条", "k": "第302条", "a": 1, "q": "スパイクシューズの使用は禁止されている。", "e": "第302条①のとおりです。"}, {"r": "第302条", "k": "第302条", "a": 0, "q": "グローブは、手の保護のためであれば使用できる。", "e": "グローブは禁止用具です（第302条②）。"}, {"r": "第302条", "k": "第302条", "a": 1, "q": "頭部に身に付けるアクセサリーも、禁止用具に含まれる。", "e": "第302条④のとおりです。"}, {"r": "第302条", "k": "第302条", "a": 1, "q": "主審が危険と判断した物は、使用が禁止される。", "e": "第302条⑤のとおりです。"}, {"r": "第401条", "k": "第401条", "a": 1, "q": "罰則は「警告」「退場」「失格」に分類される。", "e": "第401条のとおりです。"}, {"r": "第402条", "k": "第402条", "a": 0, "q": "警告は、副審もイエローカードを提示して宣告できる。", "e": "警告・退場・失格を宣告するのは主審です（第402条・第602条②）。"}, {"r": "第403条", "k": "第403条", "a": 1, "q": "同一試合中に2度目の警告を受けた者は、レッドカードにより退場となる。", "e": "第403条1)のとおりです。"}, {"r": "第403条", "k": "第403条", "a": 0, "q": "退場を宣告されたプレイヤーは、次のセットから復帰できる。", "e": "退場した者はその試合に復帰できません（第403条3)）。"}, {"r": "第403条", "k": "第403条", "a": 1, "q": "暴力行為をした者には、警告を経ずに退場が宣告されることがある。", "e": "第403条2)のとおりです。"}, {"r": "第404条", "k": "第404条", "a": 0, "q": "失格を宣告された者は、その試合が終わればその大会の次の試合には出場できる。", "e": "失格を宣告された者はその後の試合に参加できません（第404条3)）。"}, {"r": "第404条", "k": "第404条", "a": 0, "q": "失格となった者のその後の処分は、主審がその場で最終決定する。", "e": "その後の処分は日本ドッジボール協会の競技委員会で決定します（第404条3)）。"}, {"r": "第404条", "k": "第404条", "a": 1, "q": "主審の改善要求に従わなかったチームは、チームとして失格になることがある。", "e": "第404条4)のとおりです。"}, {"r": "第405条", "k": "第405条", "a": 1, "q": "軽度なマナー違反は「指導」の対象で、改善されなければテクニカルファールが適用される。", "e": "第405条のとおりです。"}, {"r": "第405条", "k": "第405条", "a": 1, "q": "指導は記録用紙に記録される。", "e": "第405条のとおりです。"}, {"r": "第405条", "k": "第603条", "a": 0, "q": "指導できるのは主審だけである。", "e": "副審・線審も第405条により指導できます（第603条⑤・第604条⑤）。"}, {"r": "第501条", "k": "第501条", "a": 0, "q": "ゲームオフィシャルは、コートマスター・記録員・計時員・アナウンス係の4名である。", "e": "ゲームオフィシャルはコートマスター・記録員・計時員の3名です（第501条）。"}, {"r": "第502条", "k": "第502条", "a": 1, "q": "コートマスターはオフィシャルタイムアウトを宣言できる。", "e": "第502条1)②・第709条2)のとおりです。"}, {"r": "審判テキスト", "k": "第5章　ゲームオフィシャル", "a": 0, "q": "コートマスターは7番目の審判員として、アウトやファールの判定に加わる。", "e": "コートマスターは7番目の審判員ではなく、判定は主審・副審・線審の6名で行います（審判テキスト第5章）。"}, {"r": "第502条", "k": "第502条", "a": 1, "q": "全審判員の協議で判断がつかない場合、主審の要請があればコートマスターは助言できる。", "e": "第502条3)のとおりです。"}, {"r": "第503条", "k": "第503条", "a": 0, "q": "記録用紙には、主審のサインだけがあればよい。", "e": "記録員は主審及び監督の最終確認（サイン）を得ます（第503条①）。コートマスターも署名します。"}, {"r": "第504条", "k": "第504条", "a": 0, "q": "ジャンプボールでは、ジャンパーがボールをタップした瞬間に時計を作動させる。", "e": "ボールが主審の手を離れた瞬間に時計を作動させます（第504条2)①・第703条）。"}, {"r": "第504条", "k": "第504条", "a": 0, "q": "ランニングタイム制でも、ファールが確定するたびに時計を止める。", "e": "ファール確定時に時計を止めるのは実働制の場合です（第504条3)③）。"}, {"r": "審判テキスト", "k": "第5章　ゲームオフィシャル", "a": 1, "q": "記録員は、得点が分かりやすい場合でも、主審の得点報告を受けてから記録用紙に記入する。", "e": "審判テキスト第5章4)のとおりです。"}, {"r": "審判テキスト", "k": "第5章　ゲームオフィシャル", "a": 1, "q": "ストップウォッチのみで計時する場合、計時員は試合終了10秒前に起立する。", "e": "審判テキスト第5章7)のとおりです。"}, {"r": "第601条", "k": "第601条", "a": 0, "q": "審判員は主審1名・副審1名・線審2名の計4名である。", "e": "審判員は主審1名・副審1名・線審4名の計6名です（第601条）。"}, {"r": "第602条", "k": "第602条", "a": 1, "q": "警告・退場・失格を宣告できるのは主審である。", "e": "第602条②のとおりです。"}, {"r": "第602条", "k": "第602条", "a": 1, "q": "パスカウントは主審が見やすい位置で必ず表示する。", "e": "第602条⑤のとおりです。"}, {"r": "第604条", "k": "第604条", "a": 0, "q": "線審は主に、内野プレイヤーのアウト・セーフの判定をする。", "e": "線審は主にワンタッチ・ノータッチの判定をし、アウト・セーフは補佐です（第604条）。"}, {"r": "審判テキスト", "k": "線審の留意点", "a": 0, "q": "線審は笛を持たず、旗だけで判定を示す。", "e": "線審は笛を常に口にくわえておきます（審判テキスト「線審の留意点」2)）。"}, {"r": "審判テキスト", "k": "~主審・副審・線審の動作", "a": 1, "q": "線審の番号は、主審の左から時計回りに①②③④とする。", "e": "審判テキスト「主審・副審・線審の動作」5)のとおりです。"}, {"r": "審判テキスト", "k": "副審の留意点", "a": 1, "q": "副審は、いかなることがあってもセンターラインを視野から離してはならない。", "e": "センターラインは副審以外に補佐する審判がいないためです（審判テキスト「副審の留意点」）。"}, {"r": "第701条", "k": "第701条", "a": 0, "q": "試合時間は原則として1セット3分間である。", "e": "試合時間は原則として1セット5分間です（第701条）。"}, {"r": "第702条", "k": "第702条", "a": 0, "q": "3セットマッチでは、セットとセットの間に5分以内の休息時間を設ける。", "e": "セット間の休息時間は2分以内です（第702条4)）。"}, {"r": "第702条", "k": "第702条", "a": 0, "q": "5セットマッチは、5セットすべてを行い、取ったセット数の多いチームが勝ちとなる。", "e": "5セットマッチは3セット先取したチームが勝ちです（第702条3)）。"}, {"r": "第703条", "k": "第703条", "a": 0, "q": "試合は、じゃんけんで勝ったチームの内野ボールから開始する。", "e": "試合はジャンプボールにより開始します（第703条）。"}, {"r": "第704条", "k": "第704条", "a": 1, "q": "一方のチームの内野プレイヤー全員のアウト（0人）が確定した瞬間に、試合は終了する。", "e": "第704条1)のとおりです。"}, {"r": "第704条", "k": "第704条", "a": 1, "q": "試合終了と同時にプレイヤーの手から離れた投球ボールは有効である。", "e": "第704条2)のとおりです。"}, {"r": "第705条", "k": "第705条", "a": 0, "q": "整列時にプレイヤーが11名しかいなくても、相手チームの了承があれば試合を行える。", "e": "12名揃わなかった場合は試合放棄とみなされ、相手チームの不戦勝です（第705条①）。"}, {"r": "第705条", "k": "第705条", "a": 0, "q": "3セットマッチの不戦勝は、セットカウント2対0、各セットの内野人数12対0とする。", "e": "各セットの内野人数は11対0です（第705条③）。"}, {"r": "第706条", "k": "第706条", "a": 1, "q": "チームに成人がいなくなった時点で、そのチームは負けとなる。", "e": "第706条④のとおりです。"}, {"r": "第706条", "k": "第706条", "a": 1, "q": "コート内のプレイヤーが13名以上と確認された時点で、そのセットは負けとなる。", "e": "第706条③のとおりです。"}, {"r": "第707条", "k": "第707条", "a": 0, "q": "セットアップ時、外野には2名以上を配置しなければならない。", "e": "外野には1名以上11名以下を配置します（第707条1)）。"}, {"r": "第707条", "k": "第707条", "a": 1, "q": "セットアップ時、プレイヤーは速やかに静止した状態で座り、人数の確認を受ける。", "e": "第707条2)のとおりです。"}, {"r": "第708条", "k": "第708条", "a": 0, "q": "3セットマッチでは、3セット目だけコートを変える。", "e": "2セット目以降、各セットでコートを変えます（第708条）。"}, {"r": "第708条", "k": "第708条", "a": 0, "q": "コートチェンジの際は、プレイヤーズベンチも必ず移動する。", "e": "プレイヤーズベンチは原則として移動しません（第708条2)）。"}, {"r": "第709条", "k": "第709条", "a": 1, "q": "ヘルドボールのとき、主審はオフィシャルタイムアウトを宣言できる。", "e": "第709条1)④のとおりです。"}, {"r": "第710条", "k": "第710条", "a": 1, "q": "セット終了時に、内野に残っているプレイヤーが多いチームがそのセットの勝者となる。", "e": "第710条1)のとおりです。"}, {"r": "第710条", "k": "第710条", "a": 0, "q": "セット終了時に内野人数が同数の場合は、必ずジャンプボールで延長戦を行う。", "e": "同数の場合は各大会規定により勝敗を決定します（第710条3)）。"}, {"r": "審判テキスト", "k": "ヴィクトリーポイント（Vポイント）ゲーム", "a": 1, "q": "Vポイントゲームでは、ジャンプボールで再開し、最初にアウトを取ったチームが勝ちとなる。", "e": "審判テキスト「ヴィクトリーポイント（Vポイント）ゲーム」のとおりです。"}, {"r": "第801条", "k": "第801条", "a": 0, "q": "床に転がっているボールは、足で止めて保持してもキャッチになる。", "e": "床にあるボールのキャッチは、手で拾い上げて確実に保持した場合です（第801条②）。"}, {"r": "第802条", "k": "第802条", "a": 1, "q": "ワンタッチは、外野プレイヤーが最後に手でボールに触れ、直接アウト・オブ・バーンズになった時点で成立する。", "e": "第802条のとおりです。"}, {"r": "第802条", "k": "第802条", "a": 0, "q": "外野プレイヤーが足でボールに触れて外に出た場合も、ワンタッチが成立する。", "e": "ワンタッチは手で触れた場合だけです。手以外はノータッチB になります。"}, {"r": "第803条", "k": "第803条", "a": 1, "q": "アタックとは、肩の線より低い投球で、広げた両手の内側（円筒形の内側）の範囲にボールが介在したものをいう。", "e": "第803条①②のとおりです。"}, {"r": "第804条", "k": "第804条", "a": 0, "q": "パスの連続中にワンタッチでアウト・オブ・バーンズになると、パスカウントは0に戻る。", "e": "ワンタッチの後も、再開後のパスは継続して数えます（第804条③）。"}, {"r": "第804条", "k": "第804条", "a": 1, "q": "アタックやパスに相手プレイヤーが触れると、パスカウントは消滅する。", "e": "第804条⑤のとおりです。"}, {"r": "第805条", "k": "第805条", "a": 1, "q": "相手のノーバウンドの投球が内野プレイヤーに当たり、そのボールが床に落ちるとアウトになる。", "e": "第805条1)①のとおりです。"}, {"r": "第805条", "k": "第805条", "a": 0, "q": "当たったボールが天井に接した場合は、床に落ちていないのでアウトにならない。", "e": "「コート等」には天井及び壁等も含まれるので、アウトの対象です（第805条1)①）。"}, {"r": "第805条", "k": "第805条", "a": 0, "q": "2名の内野プレイヤーに続けて当たって床に落ちた場合、最後に当たったプレイヤーがアウトになる。", "e": "最初に当てられたプレイヤーがアウトの対象です（第805条1)④）。"}, {"r": "第805条", "k": "第805条", "a": 1, "q": "アウトを取った外野プレイヤーは、内野への復帰権を得る。", "e": "第805条3)のとおりです。"}, {"r": "第805条", "k": "第805条", "a": 0, "q": "セットアップ時から外野にいたプレイヤーは、アウトを取らなくても内野に入れる。", "e": "アウトを取らなければ内野への復帰権を得られません（第805条4)）。"}, {"r": "第806条", "k": "第806条", "a": 1, "q": "当たったボールが空中にある間に、味方または当たった本人がノーバウンドでキャッチすれば、アシストキャッチとなりアウトにならない。", "e": "第806条1)のとおりです。"}, {"r": "第806条", "k": "第806条", "a": 1, "q": "アシストキャッチ成立前に相手チームがファールをした場合は、アシストキャッチが成立したものとみなされる。", "e": "第806条3)のとおりです。"}, {"r": "第806条", "k": "第806条", "a": 0, "q": "アシストキャッチ成立前に味方チームがファールをしても、当たったプレイヤーはアウトにならない。", "e": "味方のファールの場合、最初に当たったプレイヤーはアウトです（第806条2)）。"}, {"r": "第807条", "k": "第807条", "a": 0, "q": "相手のノーバウンドの投球が審判員に当たった後、床に落ちる前に内野プレイヤーに当たった場合はアウトである。", "e": "審判員に当たった後に内野プレイヤーに当たった場合はセーフです（第807条④）。"}, {"r": "第807条", "k": "第807条", "a": 1, "q": "投球したプレイヤーにファールがあった場合はセーフである。", "e": "第807条③のとおりです。"}, {"r": "第808条", "k": "第808条", "a": 1, "q": "内野プレイヤーと外野プレイヤーが同時にボールを掴んだヘルドボールは、その内野プレイヤーから試合を再開する。", "e": "第808条2)①のとおりです。"}, {"r": "第808条", "k": "第808条", "a": 0, "q": "内野プレイヤー同士のヘルドボールは、チームが選んだ別のプレイヤーのジャンプボールで再開する。", "e": "掴んだプレイヤー同士のジャンプボールで再開します（第808条2)②）。"}, {"r": "第809条", "k": "第809条", "a": 1, "q": "空中の鳥や障害物にボールが接触した場合は、アウト・オブ・バーンズとなる。", "e": "第809条③のとおりです。"}, {"r": "第810条", "k": "第810条", "a": 1, "q": "静止しているルーズボールを5秒以内にキャッチしなかった場合は、ボールデッドとなる。", "e": "第810条1)①のとおりです。"}, {"r": "第810条", "k": "第810条", "a": 1, "q": "外野プレイヤーが投げたボールが誰にも触れずにアウト・オブ・バーンズになった場合、相手の内野に支配権が移る。", "e": "第810条2)②のとおりです。"}, {"r": "第810条", "k": "第810条", "a": 1, "q": "最後にボールに触れたのが内野プレイヤーでアウト・オブ・バーンズになった場合、支配権は相手の内野に移る。", "e": "第810条2)③のとおりです。"}, {"r": "第811条", "k": "第811条", "a": 0, "q": "内野・外野へ移動するときは、最短距離であればインプレイゾーンを横切ってよい。", "e": "移動時はボールデッドゾーンを通らなければなりません（第811条）。"}, {"r": "第811条", "k": "第811条", "a": 0, "q": "アウトになったプレイヤーは、近道であれば相手チームのエリアを通って外野へ移動してよい。", "e": "相手のエリアに入ってはならず、必ずボールデッドゾーンを移動します（第811条1)）。"}, {"r": "第812条", "k": "第812条", "a": 1, "q": "アウトを取った外野プレイヤーが、そのまま外野で再びボールに触れると、内野復帰権を放棄したとみなされる。", "e": "第812条1)のとおりです。故意・偶然は問いません。"}, {"r": "第813条", "k": "第813条", "a": 1, "q": "ボールデッドのボールは近くのプレイヤーが自発的に拾い、主審の指示に従って速やかに受け渡す。", "e": "第813条①のとおりです。"}, {"r": "第814条", "k": "第814条", "a": 0, "q": "ジャンパーは、外野プレイヤーが務めてもよい。", "e": "ジャンパーは内野プレイヤーで、各チーム1名です（第814条1)①）。"}, {"r": "第814条", "k": "第814条", "a": 1, "q": "トスアップされたボールがタップされずに床に接した場合は、ジャンプボールをやり直す。", "e": "第814条2)②のとおりです。"}, {"r": "第815条", "k": "第815条", "a": 1, "q": "試合再開時は、ボールを持ったプレイヤーが静止してボールを頭上に上げ、主審の笛の後に投球する。", "e": "第815条①②のとおりです。"}, {"r": "第816条", "k": "第816条", "a": 1, "q": "唯一の外野プレイヤーは、相手の内野プレイヤーをアウトにしても、原則として内野に復帰できない。", "e": "第816条1)③のとおりです。"}, {"r": "第816条", "k": "第816条", "a": 1, "q": "唯一の外野プレイヤーが、相手の最後の内野プレイヤーをアウトにして試合が終わる場合は、内野へ復帰する権利を得る。", "e": "第816条2)のとおりです。"}, {"r": "第902条", "k": "第902条", "a": 0, "q": "パスは連続5回までできる。", "e": "パスは連続4回までで、5回目のパスでファイブパスになります（第902条）。"}, {"r": "第902条", "k": "第902条", "a": 0, "q": "ファイブパスのファールでは、支配権が相手の外野に移る。", "e": "ファイブパスでは支配権は相手の内野に移ります（第902条）。"}, {"r": "第903条", "k": "第903条", "a": 0, "q": "外野プレイヤー同士であれば、パスをしてもダブルパスにならない。", "e": "内野同士・外野同士のパスはどちらもダブルパスです（第903条）。"}, {"r": "第903条", "k": "第903条", "a": 1, "q": "主審がアタックと判定した投球は、ダブルパスにならない。", "e": "第903条のただし書きのとおりです。"}, {"r": "第904条", "k": "第904条", "a": 1, "q": "インプレイ中、ボールを保持したプレイヤーがラインを踏むとオーバーラインになる。", "e": "第904条のとおりです。"}, {"r": "第905条", "k": "第905条", "a": 1, "q": "相手チームのエリアの床にあるルーズボールに触れると、ホールディングになる。", "e": "第905条のとおりです。"}, {"r": "第905条", "k": "第905条", "a": 1, "q": "相手エリアの上の空中にあるボールに触れることは、ホールディングではない。", "e": "第905条のただし書きのとおりです。"}, {"r": "第906条", "k": "第906条", "a": 1, "q": "ノーバウンドの投球が、相手プレイヤーの顔面に直接当たるとヘッドアタックになる。", "e": "第906条①のとおりです。"}, {"r": "第906条", "k": "第906条", "a": 0, "q": "投球が髪の毛やはちまきに掠っただけでも、ヘッドアタックになる。", "e": "髪の毛のみ・はちまき等に掠った場合は適用されません（第906条③）。"}, {"r": "第906条", "k": "第906条", "a": 1, "q": "故意にボールに頭を持っていったと判断された場合、ヘッドアタックは適用されない。", "e": "第906条②のとおりです。"}, {"r": "第906条", "k": "第906条", "a": 1, "q": "ヘッドアタックの投球は無効となり、支配権は相手の内野に移る。", "e": "第906条のとおりです。"}, {"r": "第907条", "k": "第907条", "a": 0, "q": "ジャンプボールのときに偶然体が触れた場合も、タッチ・ザ・ボディーになる。", "e": "ジャンプボール時に偶然体が触れた場合は除かれます（第907条）。"}, {"r": "第908条", "k": "第908条", "a": 1, "q": "アウトになったプレイヤーが、アウトコール後に自エリア内で自ら再びボールに触れると、ダブルタッチになる。", "e": "第908条のとおりです。"}, {"r": "審判テキスト", "k": "ダブルタッチ", "a": 1, "q": "アウトコール直後に、すぐ足元に置き、両足とも一歩も動かず、ボールの方向を変えなければ、ダブルタッチにならない。", "e": "審判テキスト「ダブルタッチ（ファール）にならない3条件」のとおりです。"}, {"r": "第909条", "k": "第909条", "a": 1, "q": "外野へ移動中のプレイヤーが、相手の投球に故意に触れるとインターフェアーになる。", "e": "第909条のとおりです。"}, {"r": "第910条", "k": "第910条", "a": 0, "q": "ボールをキャッチしてから10秒以上保持するとファールになる。", "e": "5秒以上保持するとキープ・フォー・ファイブになります（第910条）。"}, {"r": "第910条", "k": "第910条", "a": 0, "q": "転倒した場合でも、5秒はボールをキャッチした時点から数える。", "e": "転倒などで直ちに投球できない場合は、立ち上がってから5秒です（第910条）。"}, {"r": "第911条", "k": "第911条", "a": 0, "q": "ジャンプボールでは、トスアップされたボールが頂点に達する前にタップしてもよい。", "e": "頂点から落下し始める前のタップはフライングタップです（第911条）。"}, {"r": "第912条", "k": "第912条", "a": 0, "q": "ジャンプボールで同じジャンパーが2回タップしても、ファールにはならない。", "e": "2度以上のタップはダブルタップです（第912条）。落下したボールが偶然触れた場合は除きます。"}, {"r": "第913条", "k": "第913条", "a": 1, "q": "ジャンパーがタップしたボールをキャッチした内野プレイヤーは、相手ジャンパーを第1投目でアタックしてはならない。", "e": "第913条のとおりです。"}, {"r": "審判テキスト", "k": "ジャンパーアタック", "a": 1, "q": "ジャンプボール後の第1投目が外野プレイヤーからの場合は、ジャンパーアタックにならない。", "e": "審判テキスト「ジャンパーアタック」の適用除外①のとおりです。"}, {"r": "第914条", "k": "第914条", "a": 1, "q": "ジャンパーは、タップしたボールを他のプレイヤーが投球するまで触れてはならない。", "e": "第914条のとおりです。"}, {"r": "第915条", "k": "第915条", "a": 0, "q": "ボールデッド後の再開では、ボールアップをすれば主審の笛を待たずに投球してよい。", "e": "主審の笛の前に投球するとフライングスローです（第915条）。"}, {"r": "審判テキスト", "k": "試合再開", "a": 1, "q": "フライングスローのボールを相手チームがキャッチした場合は、アドバンテージでそのまま続行となる。", "e": "審判テキスト「試合再開」のとおりです。"}, {"r": "第916条", "k": "第916条", "a": 1, "q": "インプレイ中に相手エリアやボールデッドゾーンでプレイすると、アウトプレイになる。", "e": "第916条のとおりです。"}, {"r": "第917条", "k": "第917条", "a": 1, "q": "内野プレイヤーがボールを手で弾いて味方にパスすると、イリーガル・スローになる。", "e": "第917条のとおりです。"}, {"r": "第917条", "k": "第917条", "a": 1, "q": "外野プレイヤーは、手で弾いたボールを自分でキャッチしてもイリーガル・スローにならない。", "e": "外野にはワンタッチの特例があるためです（第917条②、審判テキスト）。"}, {"r": "第918条", "k": "第918条", "a": 1, "q": "ファンブルと主審が認めたものは、イリーガル・キャッチにならない。", "e": "第918条③のとおりです。"}, {"r": "第919条", "k": "第919条", "a": 0, "q": "テクニカルファールを犯したプレイヤーは、口頭で注意されるだけでカードは出ない。", "e": "テクニカルファールではイエローカードによる警告を受けます（第919条1)）。"}, {"r": "第919条", "k": "第919条", "a": 1, "q": "監督や控えプレイヤーにも、テクニカルファールが適用される。", "e": "第919条2)のとおりです。"}, {"r": "第920条", "k": "第920条", "a": 0, "q": "ファールが連続してあった場合は、最後のファールを適用する。", "e": "最初のファールを適用します（第920条）。"}, {"r": "第920条", "k": "第920条", "a": 0, "q": "ファールの判定が審判員によって異なる場合は、軽い方を適用する。", "e": "重い方を適用します（第920条）。"}, {"r": "第921条", "k": "第921条", "a": 0, "q": "テクニカルファールにも、アドバンテージが適用される。", "e": "テクニカルファールはアドバンテージの対象外です（第921条）。"}, {"r": "第921条", "k": "第921条", "a": 1, "q": "アドバンテージとは、ファールを確定させずに経過を見て、ファールされたチームに不利なら確定させるものである。", "e": "第921条のとおりです。"}, {"r": "審判の動作", "k": "【主審】", "a": 0, "q": "アウトの笛は、長い「ピーッ」である。", "e": "アウトは短い「ピッ」です。長い笛はファール・オフィシャルタイムアウト・アウト・オブ・バーンズです。"}, {"r": "審判の動作", "k": "【主審】", "a": 1, "q": "ファールやオフィシャルタイムアウトの笛は、長い「ピーッ」である。", "e": "長い笛はファール・オフィシャルタイムアウト・アウト・オブ・バーンズで、すべてボールデッドです。"}, {"r": "審判の動作", "k": "【主審】", "a": 0, "q": "試合終了の笛は「ピーッ、ピーッ、ピーッ」と長く3回である。", "e": "試合終了の笛は「ピッピーッ」です（審判統一基本動作）。"}, {"r": "審判の動作", "k": "【主審】", "a": 0, "q": "主審はアウトの判定のとき、人差し指でプレイヤーを指差す。", "e": "掌を床面に対し垂直にし、5指を揃えて指します。指差しは厳禁です。"}, {"r": "審判の動作", "k": "【主審】", "a": 1, "q": "ヘッドアタックの動作は、掌で側頭部を2回軽く叩く。", "e": "審判統一基本動作 ⑪-7のとおりです。"}, {"r": "審判テキスト", "k": "ワンタッチの確認", "a": 1, "q": "線審はワンタッチを確認するとき、手だけでなく足元も一緒に見られる距離を取る。", "e": "手でボールに触れた後にラインを踏んでいることがあるためです。"}, {"r": "審判テキスト", "k": "ワンタッチの確認", "a": 0, "q": "ワンタッチは、外野プレイヤーの手にボールが触れた瞬間にコールする。", "e": "ボールがボールデッドゾーンに落ちた時点、または壁に当たった時点で初めてコールします。"}, {"r": "審判テキスト", "k": "ジャンプボール", "a": 1, "q": "トスアップの高さは、背の高い方のプレイヤーが手を上げた高さから約1メートルの位置とする。", "e": "審判テキスト第8章「ジャンプボール」3)のとおりです。"}, {"r": "審判テキスト", "k": "オーバーライン", "a": 0, "q": "内野プレイヤーが外野エリアとの境のバックラインでオーバーラインをすると、相手の内野ボールになる。", "e": "外野エリアとの境のバックライン・サイドラインでのオーバーラインは、相手の外野ボールです。"}, {"r": "審判テキスト", "k": "ヘッドアタック", "a": 1, "q": "ヘッドアタックではアドバンテージを取らず、審判は必ず試合を止めて状態を確認する。", "e": "危険防止のためのファールだからです（審判テキスト「ヘッドアタック」）。"}, {"r": "審判テキスト", "k": "アウトプレイ", "a": 1, "q": "片足が完全に相手エリアにあり、もう一方の足が浮いている状態も、アウトプレイの対象になる。", "e": "審判テキスト「アウトプレイ」1)のとおりです。"}];
+const FAQ=[{"q": "ワンタッチが成立する条件は？", "k": ["ワンタッチ"], "a": "外野プレイヤーが、ファールなくキャッチできずに**最後に手で**ボールに触れ、そのボールが**直接アウト・オブ・バーンズ**になった時点で成立します。成立するとその外野プレイヤーに支配権があり、パスカウントも継続します。\n・手以外（足・体など）が最後に触れて外に出た場合はワンタッチではありません（線審はノータッチB）。\n・手で触れた後、別の部位に触れて出た場合もワンタッチではありません。\n・線審がコールするのは、手に触れた瞬間ではなく、ボールがボールデッドゾーンに落ちた時点か壁に当たった時点です。", "r": ["第802条", "第810条", "ワンタッチの確認"]}, {"q": "パスは何回まで続けられる？", "k": ["パス", "何回", "ファイブパス", "5回"], "a": "ファールとアウトがなければ**連続4回まで**です。**5回目のパス**が行われた時点でファイブパスとなり、相手の内野ボールになります。\n・パスの途中でワンタッチがあっても、再開後のパスは継続して数えます。\n・オフィシャルタイムアウト後も、支配権に変動がなければ継続して数えます。\n・アタックやパスに相手プレイヤーが触れると、パスカウントは消滅します。", "r": ["第902条", "第804条"]}, {"q": "ダブルパスになるのはどんなとき？", "k": ["ダブルパス", "内野同士", "外野同士"], "a": "同じチームの**内野同士、または外野同士**でパスやボールの受け渡しをするとダブルパスです。相手の内野ボールになります。ただし主審がアタックと判定した投球は除きます。\n・投球時に落球したボールを味方が拾った場合も、結果としてダブルパスになることがあります。\n・外野が手で弾いたボールを別の外野がキャッチした場合もダブルパスです。", "r": ["第903条", "ダブルパス"]}, {"q": "ヘッドアタックになるのは？", "k": ["ヘッドアタック", "顔", "頭", "顔面", "頭部"], "a": "ノーバウンドの投球が相手プレイヤーの**顔面または頭部に直接**当たった場合です。ファールとなり、**その投球は無効**（当たったプレイヤーはアウトにならない）で、相手の内野ボールになります。\n・髪の毛だけ、はちまきだけに触れた場合は適用されません（床に落ちればアウト）。\n・故意にボールに顔や頭を持っていったと判断された場合も適用されません。\n・アドバンテージは取らず、審判は必ず試合を止めて状態を確認します。", "r": ["第906条", "ヘッドアタック"]}, {"q": "アシストキャッチとは？", "k": ["アシスト", "味方がキャッチ", "味方が取"], "a": "相手のノーバウンドの投球が内野エリアの味方内野プレイヤーに当たり、ボールが**空中にある間**に、味方または当たった本人が**ノーバウンドでファールなくキャッチ**することです。当たったプレイヤーはアウトになりません。\n・成立前に**味方**がファールをした場合 → 最初に当たったプレイヤーはアウト。\n・成立前に**相手**がファールをした場合 → アシストキャッチ成立とみなす。\n・アシストキャッチがヘルドボールになった場合は成立とします。", "r": ["第806条", "アシストキャッチ"]}, {"q": "当たったボールが天井や壁に当たったらアウト？", "k": ["天井", "壁"], "a": "**アウトです。**アウトの条件の「コート等」には天井や壁なども含まれます。内野プレイヤーに当たったボールが、キャッチされずに天井・壁に接した時点でアウトになります。", "r": ["第805条"]}, {"q": "2人続けて当たった場合、誰がアウト？", "k": ["2人", "二人", "続けて", "連続して当た", "2名"], "a": "**最初に当てられたプレイヤー**がアウトの対象です。ボールが床等に接した場合、または相手がファールなくキャッチした場合、もしくはファールなく触れた後に床等に接した場合です。\n・2人目の味方が空中でキャッチすれば、アシストキャッチとなり誰もアウトになりません。", "r": ["第805条", "第806条"]}, {"q": "審判に当たったボールはどうなる？", "k": ["審判に当た", "審判員に当た", "審判に"], "a": "インプレイゾーンで審判員に当たった場合、**床（コート等）に接したものとして扱います**。\n・相手の投球が審判員に当たった後、床に落ちる前に内野プレイヤーに当たった場合は**セーフ**です。\n・審判員に当たったボールをファールなく自エリアでキャッチしたプレイヤーに支配権が発生します。\n・審判員に当たった後、直接アウト・オブ・バーンズになった場合は、その前に触ったプレイヤーをもとに支配権を決めます。\n・インプレイゾーンの外で審判員に当たればアウト・オブ・バーンズです。", "r": ["第807条", "第810条", "第809条"]}, {"q": "アウトになった人にボールが当たったら？", "k": ["アウトになった人", "アウトになったプレイヤーに", "移動中"], "a": "インプレイゾーンでアウトになったプレイヤーに当たった場合、**床（コート等）に接したもの**として扱い、ファールなく自エリアでキャッチしたプレイヤーに支配権が発生します。\n・アウトになったプレイヤーが**故意に**ボールに触れた場合はダブルタッチ（自エリア内）やインターフェアー（移動中に相手の投球へ）になります。\n・インプレイゾーンの外で移動中のプレイヤーに当たればアウト・オブ・バーンズです。", "r": ["第810条", "第908条", "第909条"]}, {"q": "外野が1人のとき、アウトを取ったら内野に戻れる？", "k": ["唯一", "外野が1人", "外野1人", "一人の外野", "外野が一人", "最後の外野"], "a": "**原則戻れません。**最後（唯一）の外野プレイヤーは、相手をアウトにしても内野に復帰できません。\n・例外：唯一の外野が、相手の**最後の内野プレイヤー**をアウトにして試合が終わる場合は、内野へ復帰する権利を得ます。\n・唯一の外野が復帰権を行使してしまった場合は、外野に戻して試合を続行し、テクニカルファール（警告）の対象になります（審判テキスト）。", "r": ["第816条", "内外野への移動"]}, {"q": "内野復帰権の放棄になるのは？", "k": ["復帰権", "放棄", "戻らない", "戻らなかった"], "a": "アウトを取った外野プレイヤーが、次のような場合は復帰権の放棄とみなされ、再度アウトを取らないと内野に戻れません。\n・そのまま外野エリアで、故意・偶然にかかわらず**再びボールに触れた**、または再度プレイに加わった。\n・そのまま外野エリアに居続けた、または速やかに内野へ移動する行動を起こさない。\n・復帰の機会（オフィシャルタイムアウト・アウト・オブ・バーンズ・ファール等のボールデッド）や審判の指示があったのに内野に戻らない。\n※審判テキスト・実技統一事項では、このときアウトプレイのファールを適用して外野に戻す手順が示されています。", "r": ["第812条", "アウト判定後、外野プレイヤーが内野に復帰できない条件"]}, {"q": "内野・外野へ移動するときのルールは？", "k": ["移動", "ボールデッドゾーンを通", "通って"], "a": "インプレイ中に自分のエリアから出てよいのは、①アウトを取った外野が内野へ復帰するとき、②アウトになった内野が外野へ移動するとき、だけです。どちらも**相手のエリアに入ってはならず、必ずボールデッドゾーンを通ります**。\n・移動中に相手エリアへ入ればアウトプレイです。\n・移動中に相手の投球に故意に触れればインターフェアーです。", "r": ["第811条", "第916条", "第909条"]}, {"q": "ヘルドボールの再開方法は？", "k": ["ヘルド", "同時に掴", "同時につか", "取り合", "奪い合"], "a": "両チームのプレイヤーが同時にファールなくボールを掴み、プレイが進まないと審判が判断した状態です。主審はオフィシャルタイムアウトで止めます。\n・**内野と外野**が同時に掴んだ → その**内野プレイヤー**から再開。\n・**内野同士**が同時に掴んだ → 掴んだプレイヤー同士の**ジャンプボール**で再開。\n・審判は占有争いが激しくなる前に宣言します。", "r": ["第808条", "14. 「ヘルドボール」の対応"]}, {"q": "ジャンプボールのルールは？", "k": ["ジャンプボール", "トスアップ", "タップ", "ジャンパー"], "a": "・ジャンパーは各チーム**内野プレイヤー1名**。センターサークルから出て構えてはいけません。\n・タップはボールが**頂点から落下し始めてから**床に接するまでに、掌で軽く叩きます（頂点前はフライングタップ）。\n・2度以上タップするとダブルタップ。\n・タップしたジャンパーは、他のプレイヤーが投球するまでボールに触れてはいけません（ジャンパーキャッチ）。\n・トスが不適当、タップされずに床に落ちた、などの場合はやり直しです。\n・トスの高さは、背の高い方のプレイヤーが手を上げた高さから約1メートル。", "r": ["第814条", "第911条", "第912条", "第914条", "ジャンプボール"]}, {"q": "ジャンパーアタックとは？", "k": ["ジャンパーアタック", "第1投", "1投目", "ジャンパーを"], "a": "ジャンパーがタップしたボールをキャッチした内野プレイヤーが、**相手チームのジャンパーを第1投目でアタック**することです。ファールで相手の内野ボールになります。\n・第1投目が**外野から**の場合や、タップ後にボールデッドとなって内野から再開した投球は適用外です。\n・ジャンパーが自らアタックコースへ体を移動してキャッチ行為に転じた場合は適用されません。\n・逆に、ジャンパーが第1投目の投球行為を妨害するとインターフェアーです。", "r": ["第913条", "ジャンパーアタック", "第909条"]}, {"q": "5秒ルールとは？", "k": ["5秒", "キープ", "秒", "遅延"], "a": "・**キープ・フォー・ファイブ**：ボールをキャッチしてから**5秒以上保持**するとファール（相手内野ボール）。転倒などですぐ投げられない場合は立ち上がってから5秒。5秒は主審の主観（概ね5秒）で、故意の遅延には厳しく適用します。\n・**静止しているルーズボール**：インプレイゾーンで止まったボールを5秒以内にキャッチしないとボールデッドとなり、ボールのあるエリアの相手の内野から再開します。", "r": ["第910条", "第810条", "キープ・フォー・ファイブ"]}, {"q": "オーバーラインになるのは？支配権はどっち？", "k": ["オーバーライン", "ライン踏", "ラインを踏", "線を踏", "ラインを越"], "a": "インプレイ中に**ボールを保持した（触れた）プレイヤー**がラインを踏んだり越えたりするとオーバーラインです。投げた後に踏んだ場合や、一連の動作で踏んだ場合も含みます。\n【支配権】\n・内野プレイヤーが**外野エリアとの境（バックライン・サイドライン）**でオーバーライン → **相手の外野**ボール\n・それ以外の内野、外野プレイヤーのすべてのオーバーライン → **相手の内野**ボール\n・投球時のオーバーラインはアドバンテージを取ることが多く、笛は結果を見てから吹きます。\n・ボールを持たずにラインを踏んだり、またいでいるだけではファールではありません。", "r": ["第904条", "オーバーライン"]}, {"q": "ホールディングとは？", "k": ["ホールディング", "相手コートのボール", "相手エリアのボール", "相手のコートのボール"], "a": "インプレイ中に、**相手チームのエリアの床にあるルーズボールに触れる**こと、または空中のボールを相手エリアの床で意図的に突くことです。相手の内野または外野ボールになります。\n・相手エリアの**空中**にあるボールに触れたり、バウンドしているボールを空中でキャッチすることはOKです。\n・ファンブルして相手エリアに落ち、跳ね上がったボールは対象外です。", "r": ["第905条", "ホールディング"]}, {"q": "相手と体がぶつかったら？", "k": ["タッチ・ザ・ボディー", "タッチザボディ", "接触", "ぶつか", "体が触"], "a": "試合中に相手プレイヤーと体が接触する行為は**タッチ・ザ・ボディー**（ファール）です。ジャンプボール時に偶然触れた場合は除きます。\n・ライン際で空中のボールに手を伸ばすこと自体はOKですが、その際に相手に触れるとファールです。\n・危険行為と判断されればテクニカルファールになります。", "r": ["第907条", "タッチ・ザ・ボディー"]}, {"q": "ダブルタッチにならないのはどんなとき？", "k": ["ダブルタッチ", "アウトになった後", "アウトコール後", "足元に置"], "a": "アウトになったプレイヤーがアウトコール後に自エリア内で**自ら再びボールに触れる**とダブルタッチです。\nただし、アウトコール**直後**に無意識にキャッチしてしまった場合は、次の**3つすべて**を満たせばダブルタッチになりません。\n①すぐに足元に置いた　②両足とも一歩も動かなかった　③ボールの方向を変えなかった\n・味方の方へ転がす、転がっていくボールを止める、などはダブルタッチです。", "r": ["第908条", "ダブルタッチ"]}, {"q": "インターフェアーとは？", "k": ["インターフェア", "妨害", "邪魔"], "a": "次の場合のファールです（相手の内野ボール）。\n・内外野へ**移動中**のプレイヤーが、相手の投球に**故意に**触れた。\n・ジャンプボール後の内野からの第1投目の投球行為を、**ジャンパーが妨害**した。\n・復帰権を得た外野が、ボールデッドゾーンから空中でキャッチして内野に着地した（審判テキスト）。", "r": ["第909条", "インターフェアー"]}, {"q": "フライングスローとは？", "k": ["フライング", "笛の前", "笛より前", "笛の前に投"], "a": "ボールデッド後の再開で、**主審の笛の前に投球**するとフライングスロー（相手の内野ボール）です。ジャンプボール時のタップが早すぎるのは「フライングタップ」で別のファールです。\n・相手チームがフライングスローのボールをキャッチした場合は、アドバンテージでそのまま続行（主審は続行の動作）。", "r": ["第915条", "試合再開"]}, {"q": "アウトプレイとは？", "k": ["アウトプレイ", "相手エリアに入", "両足", "エリアの外"], "a": "インプレイ中に、**相手エリアやボールデッドゾーンでプレイ**することです（相手の内野ボール）。\n・**両足**が完全に出ている状態（片足が完全に出てもう一方が浮いている状態を含む）が対象です。\n・その状態でボールに関与すればオーバーライン、相手のノーバウンドの投球に当たれば（内野なら）アウトです。\n・移動時に相手エリアへ入った場合もアウトプレイです。", "r": ["第916条", "アウトプレイ"]}, {"q": "ボールを弾いたらファール？", "k": ["弾", "はじ", "トス", "レシーブ", "キック", "蹴", "パンチ", "ヘディング"], "a": "捕らずに弾く行為は禁止です。\n・**イリーガル・スロー**：手・腕・足・頭などで弾いてアタックやパスをする。\n・**イリーガル・キャッチ**：弾いた後にそのボールをキャッチする。\nファールを取るのは**結果**で判断します（弾いた瞬間ではない）。\n・内野が相手のノーバウンドの投球を弾いた後、床に落ちたり相手がキャッチすればアウト。\n・**外野**は手で弾いて自分でキャッチするのはOK（ワンタッチの特例）。ただし味方外野がキャッチ→ダブルパス、味方内野がキャッチ→イリーガル・スロー。\n・ファンブルと主審が認めたものは対象外です。", "r": ["第917条", "第918条", "イリーガル・スロー", "イリーガル・キャッチ"]}, {"q": "テクニカルファールになる行為は？", "k": ["テクニカル", "マナー違反", "暴言", "挑発", "威嚇", "危険行為"], "a": "危険行為や重大なマナー違反に適用され、**相手の内野ボール＋イエローカード（警告）**です。プレイヤーだけでなく監督等・控えも対象です。\n例：失礼な態度で審判に話しかける・触る／無作法な振る舞い／相手を威嚇・挑発／再開を不当に遅らせる／許可なくベンチを離れる（監督等）／判定や指示に従わない／唯一の外野が復帰権を行使した。\n・アドバンテージの対象外です。", "r": ["第919条", "テクニカルファール"]}, {"q": "警告・退場・失格の違いは？", "k": ["警告", "退場", "失格", "イエロー", "レッド", "カード"], "a": "・**警告（イエローカード）**：危険行為・重大なマナー違反。\n・**退場（レッドカード）**：同じ試合で警告2回目、または暴力・著しいスポーツマンシップ違反・侮辱的言動。すぐにペナルティーベンチに入り、**その試合は復帰不可**。\n・**失格**：悪質な言動を続けた場合。その試合中はペナルティーベンチ、試合後は会場から退去、以降の試合に出場不可。処分は協会の競技委員会が決定します。チームとしての失格もあります。", "r": ["第401条", "第402条", "第403条", "第404条"]}, {"q": "指導とは？", "k": ["指導"], "a": "**軽度なマナー違反**に対して審判員（主審・副審・線審）が行うものです。記録用紙に記録され、改善されない場合はテクニカルファールになります。", "r": ["第405条", "第4章　罰則・指導"]}, {"q": "判定に抗議できる？", "k": ["抗議", "アピール", "文句", "判定に納得"], "a": "**審判員に対して抗議・アピールはできません。**試合終了後に、**監督のみ**コートマスターに確認することができます。\n・失礼な態度で審判に話しかける行為はテクニカルファールの対象です。", "r": ["第108条"]}, {"q": "試合中に選手を交代できる？", "k": ["交代", "メンバーチェンジ", "入れ替"], "a": "**セット中は交代できません。**複数セットの試合では、セット間の休息時間中に交代できます。\n・負傷・急病の場合は、主審が状態を確認し監督と協議のうえ、ゲームオフィシャルの確認のもとで交代が認められます（緊急プレイヤー）。", "r": ["第106条", "第107条"]}, {"q": "けが人が出たらどうする？", "k": ["負傷", "けが", "怪我", "ケガ", "緊急プレイヤー", "急病"], "a": "・続行不可能と判断された負傷者は、監督の意思で**緊急プレイヤー**と交代できます（出さなくてもよい）。\n・交代した負傷者は**そのセットには復帰できません**が、次のセットは最初からプレイできます。\n・12名チームで唯一の外野が負傷した場合は、内野から1名を外野にします（その人はアウトを取らない限り内野に戻れません）。\n・緊急プレイヤーとの交代は協議を含め1分以内に処理するよう心がけます。", "r": ["第107条", "第106条", "16. 「緊急プレイヤー」との交代方法"]}, {"q": "人数が12人そろわないと？", "k": ["12名", "12人", "人数", "足りな", "11人", "11名", "13人"], "a": "・整列時に12名そろわなければ**試合放棄**（相手の不戦勝）。\n・第1セット開始（ジャンプボール）時に、コート上に12名必要です。\n・コート内のプレイヤーが11名以下または13名以上と確認された時点でそのセットは負け（11対0）。負傷退場者や退場・失格者もコート内人数に数えます。\n・負傷・退場・失格でプレイ可能なプレイヤーが1名以下になったらそのセットは負けです。", "r": ["第105条", "第705条", "第706条"]}, {"q": "監督の条件・成人がいないと？", "k": ["成人", "監督", "大人", "18歳"], "a": "・監督は**成人（18歳以上・当該年度4月2日現在）**でなければなりません。\n・チーム役員は監督・コーチ・マネージャーの3名まで。監督は兼務可。兼任プレイヤーは一般の部のみ。\n・**チームに成人がいなくなった時点で、そのチームの負け**となり、その大会の以降の試合にも出場できません。", "r": ["第102条", "第706条"]}, {"q": "試合時間とセット数は？", "k": ["試合時間", "何分", "セット", "休憩"], "a": "・原則**1セット5分**。\n・1セット／3セット（2セット先取）／5セット（3セット先取）マッチ。\n・セット間の休息は**2分以内**。2セット目以降はコートチェンジ（ベンチは原則移動しない）。\n・計時は「実働制」と「ランニングタイム制」があります。", "r": ["第701条", "第702条", "第708条"]}, {"q": "試合終了と同時に投げたボールは有効？", "k": ["終了", "ブザー", "同時に投げ", "終了と同時"], "a": "**有効です。**試合終了の合図と同時にプレイヤーの手から離れた投球は有効とされます。有効か無効かは主審がコートマスターに確認します。プレイの終了は時計ブザーの鳴り始めです。\n・内野全員がアウト（0人）になった瞬間も試合終了です。", "r": ["第704条", "第502条"]}, {"q": "同点（内野が同数）のときは？", "k": ["同数", "同点", "引き分け", "Vポイント", "ヴィクトリー"], "a": "セット終了時に内野人数が同数の場合は、**各大会の規定**で勝敗を決めます。\n・**Vポイントゲーム**を採用する場合は、終了時の状態のままジャンプボールで再開し、最初にアウトを取ったチームの勝ちです。", "r": ["第710条", "ヴィクトリーポイント（Vポイント）ゲーム"]}, {"q": "セットアップで外野は何人？", "k": ["外野の人数", "外野何人", "セットアップ", "外野は何"], "a": "各セット開始時、外野に**1名以上11名以下**を配置します。プレイヤーは速やかに静止した状態で座り、人数の確認を受けます。\n・セットアップ時から外野にいたプレイヤーは、アウトを取らないと内野に入れません。", "r": ["第707条", "第805条"]}, {"q": "コートの大きさは？", "k": ["コート", "サイズ", "広さ", "メートル", "何m"], "a": "・**小学生・中学生女子**：内野20m×10m（片側10m×10m）、全体30m×20m\n・**中学生男子・混合／高校女子／一般女子**：内野22m×11m、全体34m×23m\n・**高校男子・混合／一般男子・混合**：内野24m×12m、全体38m×26m\n・ラインの幅5〜7cm、プレイヤーズゾーンは外野ラインから2m。", "r": ["第202条", "第201条"]}, {"q": "センターサークルの大きさは？", "k": ["センターサークル", "半径", "円"], "a": "・小学生・中学生女子：**半径1.5m**\n・それ以外：**半径1.5m以上2.0m以内**", "r": ["第203条"]}, {"q": "使ってはいけない用具は？", "k": ["スパイク", "アクセサリー", "滑り止め", "グローブ", "ネックレス", "ピアス", "禁止", "時計", "メガネ"], "a": "禁止用具は①スパイクシューズ ②グローブ ③滑り止めと判断される物 ④アクセサリー等（頭部に身に付けるものを含む） ⑤主審が危険と判断した物、です。\n・審判は試合前にチェックし、罰則の前に取り外しを指導します。\n・メガネやサポーターについての明記はなく、⑤により主審の判断になります。", "r": ["第302条", "第3章　用具"]}, {"q": "ボールの規定は？", "k": ["公認球", "空気圧", "ボールの規定", "ボールは"], "a": "**J.D.B.A.公認球**を使用し、ボールに適した空気圧で使います。審判員は大会前にボールの空気圧を計測します（数値は用具に記載されたもの）。", "r": ["第301条", "第3章　用具"]}, {"q": "オフィシャルタイムアウトはいつ取る？", "k": ["タイムアウト", "タイム", "試合を止め"], "a": "主審は、他の審判員からタイム要求があったとき、プレイヤーズゾーンに部外者や危険物が入ったとき、ボールがゾーン外に出て支障があるとき、ヘルドボールのとき、その他緊急時に宣言できます。\nコートマスターも、支配権の間違い・負傷者の見落とし・内外野移動の見落としなどに審判が気づかない場合に宣言できます。\n・宣言時は内野プレイヤーをその場に座らせます。", "r": ["第709条", "オフィシャルタイムアウト"]}, {"q": "アドバンテージとは？", "k": ["アドバンテージ"], "a": "ファールがあっても、ファールされたチームが有利になるか判断がつかない場合は、ファールを確定させずに**しばらく経過を見る**ことです。有利ならそのまま続行、不利ならその時点でファールを確定させます。\n・テクニカルファールとヘッドアタックではアドバンテージを取りません。", "r": ["第921条", "アドバンテージ"]}, {"q": "ファールが続けて起きたら？", "k": ["連続", "重複", "二つのファール", "2つのファール", "同時にファール"], "a": "ファールが連続した場合は**最初のファール**を適用します（そこでボールデッドになるため、後のファールは不問）。\n審判員によって判定が異なり、支配権に影響する場合（重複）は**重い方**を適用し、最も重いのはテクニカルファールです。最終判定は主審が下します。", "r": ["第920条", "ファールの連続・重複、他"]}, {"q": "ボールが外に出たら支配権はどっち？", "k": ["アウト・オブ・バーンズ", "外に出", "場外", "出たら"], "a": "・外野が手で最後に触れて出た → **ワンタッチ成立、その外野**のボール。\n・ワンタッチ不成立、または外野の投球が誰にも触れず出た → **相手の内野**。\n・最後に触れたのが**内野**（自分の投球も含む） → **相手の内野**。", "r": ["第810条", "第809条"]}, {"q": "ライン上や転がっているボールは誰のもの？", "k": ["ルーズ", "転がっ", "ライン上", "止まった", "静止"], "a": "インプレイゾーンを転がっている・止まっているルーズボールは、**自エリアでファールなくキャッチ**したプレイヤーに支配権が発生します。センターラインやライン上のボールもルーズボールです。\n・相手エリアの床にあるボールに触れるとホールディング。\n・止まったボールを5秒以内にキャッチしないとボールデッド（ボールのあるエリアの相手内野から再開）。", "r": ["第810条", "第905条"]}, {"q": "試合再開の手順は？", "k": ["再開", "ボールアップ", "タイムイン"], "a": "ボールを持ったプレイヤーが**自エリアで静止**し、**ボールを頭上に上げ（ボールアップ）**、**主審の笛の後**に投球します。主審の笛からインプレイです。笛の前に投げるとフライングスローです。", "r": ["第815条", "試合再開"]}, {"q": "不戦勝の記録は？", "k": ["不戦勝", "棄権", "試合放棄"], "a": "3セットマッチは**セットカウント2対0**、5セットマッチは**3対0**、各セットの内野人数は**11対0**です。整列時に12名そろわない場合や、チームが失格になった場合に相手が不戦勝となります。", "r": ["第705条"]}, {"q": "コートマスターの役割は？", "k": ["コートマスター"], "a": "ゲームオフィシャルの責任者で、コートの全責任を負います。競技前の安全・用具確認、オフィシャルタイムアウトの宣言、試合後の記録用紙の確認・署名、試合終了時の投球の有効・無効の返答を行います。審判6名の協議で判断がつかないときは、主審の要請があれば助言できますが、**7番目の審判員ではありません**。", "r": ["第502条", "第5章　ゲームオフィシャル"]}, {"q": "審判の役割分担は？", "k": ["主審", "副審", "線審", "審判の役割", "審判は何人"], "a": "審判は**主審1・副審1・線審4の計6名**です。\n・**主審**：試合進行の全権。アウト・セーフ・ファール判定、支配権の決定、罰則の宣告、パスカウント表示。\n・**副審**：主審の補佐。センターラインを常に視野に入れ、見落としたアウト・ファールを判定。\n・**線審**：主にワンタッチ・ノータッチ、ラインに関するファールの判定。旗を持つ。", "r": ["第601条", "第602条", "第603条", "第604条"]}, {"q": "キャッチの定義は？", "k": ["キャッチとは", "キャッチの定義", "キャッチになる", "キャッチ成立"], "a": "インプレイのボールを手または体で受け止め、**確実に保持**し、プレイヤーが意識してボールを扱える状況に至ったと審判が判断したときです。床にあるボールは**手で拾い上げて**確実に保持した場合です。内野のノーバウンドの投球のキャッチで、床の補助を使ったものはキャッチになりません。", "r": ["第801条"]}, {"q": "アタックの定義は？", "k": ["アタックとは", "アタックの定義", "肩", "円筒", "パスとアタック"], "a": "ボールの軌道の上部が、防御側の内野プレイヤーが自然体で立った**肩の線より低く**、広げた両手の内側（**円筒形の内側**）にボールが介在したと認められる投球です。原則ノーバウンドですが、円筒形の内側でバウンドしたものも含みます。", "r": ["第803条", "アタックについて"]}, {"q": "セーフになるのはどんなとき？", "k": ["セーフ"], "a": "アウトの条件に当てはまらない場合のほか、次の場合はセーフです。\n・アシストキャッチが成立した\n・投球したプレイヤーにファールがあった\n・相手の投球が審判員やアウトになったプレイヤーに当たった後、床に落ちる前に内野に当たった\n・ヘッドアタック（投球は無効）", "r": ["第807条", "第906条"]}];
 (()=>{
 const $=id=>document.getElementById(id);
 const view=$('view'),book=$('book'),slider=$('slider'),pno=$('pno'),secEl=$('sec');
@@ -1779,6 +1858,7 @@ function layout(keep){
   paginate();
   pages=Math.ceil(pdivs.length/per);slider.max=pages;
   go(a?pageOf(a):Math.min(page,pages-1),false);
+  view.classList.add('ready');
 }
 function go(p,anim=true){
   page=Math.max(0,Math.min(pages-1,p));
@@ -1787,7 +1867,11 @@ function go(p,anim=true){
   const a0=anchor();secEl.textContent=page<1||!a0?'':headOf(a0);
   if(a0)store('a',blocks.indexOf(a0));
 }
-function goEl(el){setTab('read');go(pageOf(el))}
+let backFrom=null,backScroll=0;
+function scEl(f){return f==='ask'?(histOpen?$('askHL'):askLog):$(f==='quiz'?'tQuiz':'tSearch')}
+function goEl(el,from){if(from){backFrom=from;backScroll=scEl(from).scrollTop;showBack()}setTab('read',true);go(pageOf(el))}
+function showBack(){const b=$('back');document.body.classList.toggle('hasback',!!backFrom);if(!backFrom){b.classList.remove('on');return}b.querySelector('span').textContent=({quiz:'問題集の結果に戻る',search:'検索結果に戻る',ask:histOpen?'相談履歴に戻る':'ルール相談に戻る'})[backFrom];b.classList.add('on')}
+function goBack(){const f=backFrom;backFrom=null;showBack();if(!f)return;setTab(f);const t=scEl(f);requestAnimationFrame(()=>t.scrollTop=backScroll)}
 /* swipe: touch + mouse */
 let sx=null,sy=0,dx=0,moved=false,horiz=null,t0=0,lastSwipe=0;
 function sStart(x,y){sx=x;sy=y;dx=0;moved=false;horiz=null;t0=Date.now();book.classList.remove('anim');}
@@ -1818,12 +1902,12 @@ document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#s"]');
 $('bSm').onclick=()=>{fs=Math.max(13,fs-1);store('fs',fs);layout()};
 $('bLg').onclick=()=>{fs=Math.min(24,fs+1);store('fs',fs);layout()};
 /* ---------- tabs ---------- */
-const TT={read:'ドッジボール競技規則 2025-2026',search:'検索',quiz:'○×問題集'};
+const TT={read:'ドッジボール競技規則 2025-2026',search:'検索',quiz:'○×問題集',ask:'ルール相談'};
 let tab='read';
-function setTab(t){tab=t;document.body.className='t-'+t;
+function setTab(t,keepBack){tab=t;document.body.className='t-'+t+(backFrom?' hasback':'');if(!keepBack&&backFrom){backFrom=null;showBack()}
   document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
-  $('tSearch').classList.toggle('on',t==='search');$('tQuiz').classList.toggle('on',t==='quiz');
-  $('ttl').textContent=TT[t];if(t==='quiz'&&!qs.started)renderStart();}
+  $('tSearch').classList.toggle('on',t==='search');$('tQuiz').classList.toggle('on',t==='quiz');$('tAsk').classList.toggle('on',t==='ask');if(t==='ask'&&askLog.children.length>1)setTimeout(()=>askLog.scrollTop=askLog.scrollHeight,0);
+  $('ttl').textContent=TT[t];if(t==='quiz'&&!qs.started&&!qs.result)renderStart();}
 document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>setTab(b.dataset.t));
 /* ---------- search ---------- */
 const q=$('q'),sRes=$('sRes'),nav=$('nav'),nInfo=$('nInfo');
@@ -1855,10 +1939,10 @@ function doSearch(k,hist=true){
   hits.slice(0,400).forEach((b,i)=>{const p=pageOf(b.el);html+=`<a class="hit" data-i="${i}"><span class="p">${p+1}ページ</span><div class="h"><span class="s">${SCN[b.sec]||''}</span>${esc(headOf(b.el))}</div>${snippet(b.el.textContent,words)}</a>`});
   if(hits.length>400)html+='<div class="small">表示は最初の400件までです。言葉を足して絞り込んでください。</div>';
   sRes.innerHTML=html;
-  sRes.querySelectorAll('.hit').forEach(a=>a.onclick=()=>{const b=hits[+a.dataset.i];const idx=marks.indexOf(b.mk[0]);jump(idx>=0?idx:0,b.el)});
+  sRes.querySelectorAll('.hit').forEach(a=>a.onclick=()=>{const b=hits[+a.dataset.i];const idx=marks.indexOf(b.mk[0]);jump(idx>=0?idx:0,b.el,'search')});
   nav.classList.toggle('on',marks.length>0);nInfo.textContent=marks.length?('0 / '+marks.length):'';
 }
-function jump(i,el){if(!marks.length){if(el)goEl(el);return}marks.forEach(m=>m.classList.remove('cur'));mi=(i+marks.length)%marks.length;const m=marks[mi];m.classList.add('cur');goEl(el||m);nInfo.textContent=(mi+1)+' / '+marks.length}
+function jump(i,el,from){if(!marks.length){if(el)goEl(el,from);return}marks.forEach(m=>m.classList.remove('cur'));mi=(i+marks.length)%marks.length;const m=marks[mi];m.classList.add('cur');goEl(el||m,from);nInfo.textContent=(mi+1)+' / '+marks.length}
 $('qGo').onclick=()=>doSearch(q.value.trim());
 q.addEventListener('keydown',e=>{if(e.key==='Enter'){q.blur();doSearch(q.value.trim())}});
 $('nPrev').onclick=()=>jump(mi-1);$('nNext').onclick=()=>jump(mi+1);
@@ -1890,7 +1974,7 @@ function renderStart(){
   QW.querySelectorAll('#qC .chip').forEach(b=>b.onclick=()=>{qCat=b.dataset.v;QW.querySelectorAll('#qC .chip').forEach(x=>x.classList.toggle('on',x===b));warn()});
   $('qStart').onclick=()=>{const pool=QZ.filter(x=>qCat==='all'||x.c===qCat);start(shuffle(pool).slice(0,Math.min(qCount,pool.length)))};
 }
-function start(list){qs.started=true;qs.list=list;qs.ans={};qs.pg=0;renderPage();}
+function start(list){qs.result=false;qs.started=true;qs.list=list;qs.ans={};qs.pg=0;renderPage();}
 function renderPage(){
   const L=qs.list,P=Math.ceil(L.length/10),from=qs.pg*10,items=L.slice(from,from+10);
   const done=Object.keys(qs.ans).length;
@@ -1908,7 +1992,7 @@ function renderPage(){
   upd();
   nextBtn.onclick=()=>{if(isLast)result();else{qs.pg++;renderPage();$('tQuiz').scrollTop=0}};
   if($('qPrev'))$('qPrev').onclick=()=>{qs.pg--;renderPage();$('tQuiz').scrollTop=0};
-  $('qQuit').onclick=()=>{qs.started=false;renderStart();$('tQuiz').scrollTop=0};
+  $('qQuit').onclick=()=>{qs.started=false;qs.result=false;renderStart();$('tQuiz').scrollTop=0};
 }
 function result(){
   const L=qs.list,ok=L.filter(x=>qs.ans[x.id]===x.a),n=L.length,s=ok.length,pc=Math.round(s/n*100);
@@ -1937,8 +2021,168 @@ function result(){
 function openHead(k){const last=k.startsWith('~');k=k.replace(/^~/,'');
   const all=[...book.querySelectorAll('h1,h2,h3,h4')];
   const c=all.filter(h=>h.textContent===k||(/^第\d+条$/.test(k)&&h.textContent.startsWith(k)));
-  const h=last?c[c.length-1]:c[0];if(h)goEl(h);else toast('該当箇所が見つかりませんでした');}
+  const h=last?c[c.length-1]:c[0];if(h)goEl(h,'quiz');else toast('該当箇所が見つかりませんでした');}
+/* ---------- ask (ルール相談) ---------- */
+const askLog=$('askLog'),askIn=$('askIn'),askSend=$('askSend');
+let SECS=[],DF={},NS=1,sampleFn=null,askHist=[],asking=false;
+const STOP=new Set(['です','ます','した','ので','する','れる','られ','ある','いる','とき','場合','には','では','ても','たら','てい','って','ない','のか','すか','ょう','こと','もの','どう','なる','なり','この','その','あの','どこ','いい','よい','ルー','ール']);
+function bigrams(s){s=s.replace(/[\s　、。・，．,.!?！？「」『』（）()【】\[\]：:／\/〜~…\-]/g,'');const o=[];for(let i=0;i<s.length-1;i++){const b=s.slice(i,i+2);if(!STOP.has(b))o.push(b)}return o}
+function buildSecs(){
+  let part='';let cur=null;
+  [...book.querySelectorAll('h1,h2,h3,h4,p,td,th,.callout,figcaption,.note,.fbox')].forEach(el=>{
+    if(el.closest('.cover')||el.classList.contains('tl')||el.classList.contains('tocstart'))return;
+    if(el.tagName==='H1'){part=el.textContent;cur=null;return}
+    if(/^H[234]$/.test(el.tagName)){cur={h:el,title:el.textContent,part,text:''};SECS.push(cur);return}
+    if(cur&&!el.closest('td,th')||cur&&/^T[DH]$/.test(el.tagName))cur.text+=el.textContent+'\n';});
+  SECS.forEach(s=>{s.full=s.title+'\n'+s.text;const seen=new Set(bigrams(s.full));s.bg=seen;seen.forEach(b=>DF[b]=(DF[b]||0)+1)});NS=SECS.length;}
+const XTERMS=FAQ.flatMap(f=>f.k).concat(typeof TERMS!=='undefined'?TERMS:[]);
+function retrieve(q,n){
+  const qb=[...new Set(bigrams(q))];const nums=[...q.matchAll(/第?\s*(\d{3})\s*条?/g)].map(m=>m[1]);
+  const terms=[...new Set(XTERMS.filter(t=>t.length>=2&&q.includes(t)))];
+  const sc=SECS.map(s=>{let v=0;
+    qb.forEach(b=>{if(s.bg.has(b))v+=Math.log(1+NS/(DF[b]||1))});
+    terms.forEach(t=>{if(s.title.includes(t))v+=8;const c=s.full.split(t).length-1;v+=Math.min(c,4)*2});
+    nums.forEach(n=>{if(s.title.startsWith('第'+n+'条'))v+=60});
+    v=v/Math.pow(Math.max(s.full.length,200),.18);return{s,v}});
+  return sc.filter(x=>x.v>0).sort((a,b)=>b.v-a.v).slice(0,n).map(x=>x.s);}
+function matchFAQ(q){let best=null,bv=0;
+  FAQ.forEach(f=>{let v=0;f.k.forEach(k=>{if(q.includes(k))v+=k.length+1});
+    const fb=new Set(bigrams(f.q));bigrams(q).forEach(b=>{if(fb.has(b))v+=.6});
+    if(v>bv){bv=v;best=f}});return bv>=3?best:null}
+function fmt(t){let h=esc(t);
+  h=h.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>');
+  h=h.replace(/【([^】]{1,40})】/g,(m,k)=>`<button class="cite" data-k="${k}">📖 ${k}</button>`);
+  h=h.replace(/^#{1,4}\s*(.+)$/gm,'<b class="ah">$1</b>');
+  return h.replace(/\n/g,'<br>');}
+function findHead(label){let k=label.replace(/^(審判テキスト|実技統一事項|審判の動作|公式ルール)[：:・\s]*/,'').replace(/^~/,'').trim();
+  const m=k.match(/^第(\d{3})条/);const H=[...book.querySelectorAll('h1,h2,h3,h4')];
+  if(m)return H.find(h=>h.textContent.startsWith('第'+m[1]+'条'));
+  return H.find(h=>h.textContent===k)||H.find(h=>h.textContent.includes(k))||H.find(h=>k.includes(h.textContent)&&h.textContent.length>=4);}
+askLog.addEventListener('click',e=>{const c=e.target.closest('.cite');if(c){const h=findHead(c.dataset.k);if(h)goEl(h,'ask');else{setTab('search');q.value=c.dataset.k.replace(/^.*[：:]/,'');doSearch(q.value)}return}
+  const qq=e.target.closest('.qchip');if(qq){askIn.value=qq.dataset.q;ask()}});
+function bubble(cls,html){const d=document.createElement('div');d.className='msg '+cls;d.innerHTML=html;askLog.appendChild(d);if(askLog.children.length>1)askLog.scrollTop=askLog.scrollHeight;return d}
+function secText(s,max){return `### ${s.title}（${s.part}）\n${s.text.slice(0,max)}`}
+function offlineAnswer(qtext){
+  const f=matchFAQ(qtext),secs=retrieve(qtext,4);let h='';
+  if(f){h+=`<div class="tag">回答集より</div>${fmt(f.a)}<div class="refs">${f.r.map(r=>`<button class="cite" data-k="${esc(r)}">📖 ${esc(r.replace(/^~/,''))}</button>`).join('')}</div>`}
+  if(secs.length){h+=`<div class="tag" style="margin-top:${f?12:0}px">${f?'あわせて読みたい条文':'ルールブックから関連する箇所を探しました'}</div>`+secs.map(s=>`<div class="rel"><button class="cite" data-k="${esc(s.title)}">📖 ${esc(s.title)}</button><div class="small">${esc(s.part)}</div><div class="sn">${esc(s.text.replace(/\n/g,' ').slice(0,110))}…</div></div>`).join('')}
+  if(!f&&!secs.length)h='ルールブックの中に、質問に近い記述が見つかりませんでした。言葉を変えて（例：「ワンタッチ」「外野 復帰」）もう一度聞いてみてください。';
+  return h;}
+async function ask(){
+  const qtext=askIn.value.trim();if(!qtext||asking)return;askIn.value='';autoH();
+  bubble('me',esc(qtext));asking=true;askSend.disabled=true;
+  const b=bubble('bot','<span class="dots"><i></i><i></i><i></i></span>');
+  try{
+    if(!sampleFn){await new Promise(r=>setTimeout(r,350));const oa=offlineAnswer(qtext);b.innerHTML=oa+'<div class="disc2">※ルールブックの記述をもとにした参考回答です。最終判断は大会の審判・競技委員会に従ってください。</div>';recordAsk(newRec(qtext,oa,'html'));return}
+    const secs=retrieve(qtext,8),f=matchFAQ(qtext);
+    const steps=[];const st=(t)=>{steps.push(t);b.innerHTML=`<div class="think"><b>熟考中…</b>${steps.slice(-6).map((x,i,a)=>`<div class="${i===a.length-1?'now':''}">${i===a.length-1?'<span class="dots"><i></i><i></i><i></i></span>':'✓'} ${esc(x)}</div>`).join('')}</div>`;askLog.scrollTop=askLog.scrollHeight};
+    st('質問に関係する条文を集めています');
+    const looked=new Set();
+    const tools=[{name:'search_rulebook',description:'ルールブック全文（公式ルール・審判テキスト・実技統一事項・ケーススタディ）から、言葉や文章で関連箇所を探し、上位5件の見出しと本文を返す。言い換え（例：外に出た→アウト・オブ・バーンズ）でも検索すること。',inputSchema:{type:'object',properties:{query:{type:'string',description:'探したい内容'}},required:['query']},
+        execute:({query})=>{st('「'+query+'」でルールブックを検索');return retrieve(query,5).map(s=>({title:s.title,part:s.part,text:s.text.slice(0,1400)}))}},
+      {name:'get_section',description:'見出し名または条文番号（例: 第805条、ダブルタッチ、アシストキャッチ）を指定して、その節の本文を全文返す。結論の根拠にする条文は必ずこれで本文を確認すること。',inputSchema:{type:'object',properties:{title:{type:'string'}},required:['title']},
+        execute:({title})=>{const h=findHead(title);const s=h&&SECS.find(x=>x.h===h);if(!s)throw new Error('見つかりません。search_rulebookで探してください');looked.add(s);st(s.title+' の本文を確認');return{title:s.title,part:s.part,text:s.text.slice(0,5000)}}},
+      {name:'list_headings',description:'ルールブックの見出し一覧（章・条文・審判テキストの項目名）を返す。どこに書いてありそうか見当をつけるときに使う。',inputSchema:{type:'object',properties:{}},
+        execute:()=>{st('ルールブックの目次を確認');return SECS.map(s=>s.part.slice(0,8)+'｜'+s.title).join('\n')}}];
+    const base=`あなたは一般財団法人日本ドッジボール協会（JDBA）の競技規則を熟知した競技委員・上級審判員です。根拠は「ドッジボール競技規則 公式ルール＆審判テキストブック 2025-2026年度版」だけです。一般常識や他競技のルールで補ってはいけません。`;
+    const p1=`${base}
+
+これから利用者の質問に答えるための【調査メモ】を作ります。手順:
+1. 質問の場面を整理し、関係しそうな論点（アウト/セーフ、ファールの種類、支配権、例外・ただし書き）を洗い出す。
+2. search_rulebook を言い換えも含めて2回以上使い、関係する条文と審判テキスト・ケーススタディを探す。
+3. 結論の根拠にする箇所は get_section で本文を必ず読み、ただし書き・例外・「〜を除く」を見落とさない。
+4. 条文同士で答えが分かれる場合や、ルールブックに書かれていない部分を区別する。
+出力は【調査メモ】として、論点ごとに「根拠の見出し名」「その箇所に書かれていること（要約）」「質問への当てはめ」を箇条書きで書く。最後に暫定の結論を1行。
+${f?`\n（参考：回答集の近い項目）Q: ${f.q}\nA: ${f.a}\n`:''}
+【最初に見つかった関連箇所】
+${secs.map(s=>secText(s,1500)).join('\n\n')}`;
+    const msgs=[];askHist.slice(-4).forEach(m=>msgs.push(m));msgs.push({role:'user',content:p1+'\n\n【質問】\n'+qtext});
+    const memo=await sampleFn(msgs,{tools,modelTier:'complex',cache:false});
+    st('調べた内容を条文と照らし合わせて検証しています');
+    const cited=new Set(looked);
+    [...(memo.text.matchAll(/【([^】]{1,40})】/g))].concat([...memo.text.matchAll(/(第\d{3}条)/g)]).forEach(m=>{const h=findHead(m[1]);const s=h&&SECS.find(x=>x.h===h);if(s)cited.add(s)});
+    secs.slice(0,3).forEach(s=>cited.add(s));
+    const evid=[...cited].slice(0,10).map(s=>secText(s,2600)).join('\n\n');
+    const p2=`${base}
+
+下の【調査メモ】は同僚の審判員が作ったものです。【根拠となる本文】と1文ずつ照らし合わせ、誤り・見落とし（ただし書き、例外、支配権の行き先など）・根拠のない断定があれば直したうえで、利用者への【最終回答】だけを書いてください。
+
+最終回答の書き方:
+- 1行目に **結論** を1〜2文。
+- 「根拠」として要点を「・」の箇条書きで。出典は必ず【第805条】のように隅付き括弧で、審判テキスト等は【審判テキスト：ダブルタッチ】のように見出し名で書く。本文にない内容を出典付きで書いてはいけない。
+- 場面によって答えが変わる場合は「・〜の場合」と分けて示す。
+- 審判の動き方や注意点が役立つときは「審判の実務」を1〜3行。
+- ルールブックに書かれていないことは「ルールブックに明記はありません」と書き、考えられる解釈は「見解」として区別する。
+- 全体で500字以内。太字は **…** のみ。見出し記号(#)や調査メモという言葉は使わない。
+
+【質問】
+${qtext}
+
+【調査メモ】
+${memo.text}
+
+【根拠となる本文】
+${evid}`;
+    let res;
+    try{res=await sampleFn(p2,{modelTier:'complex',cache:false,onText:({text})=>{b.innerHTML=fmt(text);askLog.scrollTop=askLog.scrollHeight}})}
+    catch(e2){res={text:memo.text}}
+    b.innerHTML=fmt(res.text)+'<div class="disc2">※ルールブックを検索・照合したうえでのAIの回答です。最終判断は大会の審判・競技委員会に従ってください。</div>';
+    askHist.push({role:'user',content:'【質問】'+qtext},{role:'assistant',content:res.text});recordAsk(newRec(qtext,res.text,'ai'));
+  }catch(e){
+    if(e&&(e.code==='not_granted')){sampleFn=null;setMode()}
+    b.innerHTML=(e&&e.code==='rate_limited'?'<div class="tag">混み合っているため、ルールブック検索で回答します</div>':e&&e.code==='not_granted'?'<div class="tag">AI回答が許可されなかったため、ルールブック検索で回答します</div>':'<div class="tag">AIに接続できなかったため、ルールブック検索で回答します</div>')+offlineAnswer(qtext);recordAsk(newRec(qtext,offlineAnswer(qtext),'html'));
+  }finally{asking=false;askSend.disabled=false;askLog.scrollTop=askLog.scrollHeight}
+}
+function newRec(q,a,kind){return{id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),ts:Date.now(),q,a,kind}}
+function autoH(){askIn.style.height='auto';askIn.style.height=Math.min(askIn.scrollHeight,120)+'px'}
+askIn.addEventListener('input',autoH);
+askIn.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();ask()}});
+askSend.onclick=ask;
+$('askClr').onclick=()=>{askHist=[];askLog.innerHTML='';welcome()};
+function setMode(){$('askMode').textContent=sampleFn?'🤖 AI回答モード':'📚 ルールブック検索モード';$('askMode').classList.toggle('ai',!!sampleFn)}
+const QUICK=['ワンタッチが成立する条件は？','パスは何回まで続けられる？','ヘッドアタックになるのは？','アシストキャッチとは？','外野が1人のとき、アウトを取ったら内野に戻れる？','ヘルドボールの再開方法は？','ダブルタッチにならないのはどんなとき？','オーバーラインになるのは？支配権はどっち？','ボールを弾いたらファール？','2人続けて当たった場合、誰がアウト？','審判に当たったボールはどうなる？','ジャンパーアタックとは？','警告・退場・失格の違いは？','けが人が出たらどうする？','試合終了と同時に投げたボールは有効？','同点（内野が同数）のときは？'];
+function welcome(){bubble('bot',`<b>ルール相談室へようこそ。</b><br>ドッジボール競技規則（2025-2026年度版）について、文章で質問してください。答えには根拠の条文が付き、📖 を押すとその条文のページを開けます。<div class="qchips">${QUICK.map(x=>`<button class="qchip" data-q="${esc(x)}">${esc(x)}</button>`).join('')}</div><button class="chip" id="moreQ" style="margin-top:8px">ほかの質問例を見る（全${FAQ.length}件）</button>`);
+  const m=$('moreQ');m.onclick=()=>{m.outerHTML=`<div class="qchips">${FAQ.filter(f=>!QUICK.includes(f.q)).map(f=>`<button class="qchip" data-q="${esc(f.q)}">${esc(f.q)}</button>`).join('')}</div>`}}
+/* ---------- 相談履歴 ---------- */
+let HIST=[],cloud=null,uid=null,histOpen=false;
+function loadLocal(){try{return JSON.parse(load('askh')||'[]')}catch(e){return[]}}
+function saveLocal(){store('askh',JSON.stringify(HIST.slice(0,300)))}
+function histCol(){return cloud&&uid?cloud.doc('data/users/'+uid+'/rulebook').collection('asks'):null}
+async function recordAsk(rec){
+  HIST.unshift(rec);saveLocal();updHistBtn();if(histOpen)renderHist2();
+  const c=histCol();if(c){try{await c.doc(rec.id).set(rec)}catch(e){}}}
+async function delAsk(id){HIST=HIST.filter(x=>x.id!==id);saveLocal();updHistBtn();renderHist2();const c=histCol();if(c){try{await c.doc(id).delete()}catch(e){}}}
+function updHistBtn(){$('askHistBtn').textContent='📜 相談履歴（'+HIST.length+'）'}
+function dstr(ts){const d=new Date(ts);return `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`}
+function renderHist2(){
+  const f=($('askHF').value||'').trim();const L=HIST.filter(x=>!f||x.q.includes(f)||(x.kind==='ai'&&x.a.includes(f)));
+  $('askHL').innerHTML=(L.length?L.map(x=>`<details class="hi"><summary><span class="hd">${dstr(x.ts)}　${x.kind==='ai'?'🤖 AI回答':'📚 ルールブック検索'}</span><span class="hq">${esc(x.q)}</span></summary>
+    <div class="ha">${x.kind==='ai'?fmt(x.a):x.a}</div>
+    <div class="row" style="margin-top:8px;gap:6px"><button class="chip again" data-q="${esc(x.q)}">もう一度聞く</button><button class="chip del" data-id="${esc(x.id)}">この記録を削除</button></div></details>`).join('')
+    :`<div class="small" style="text-align:center;padding:30px 0">${HIST.length?'見つかりませんでした':'まだ相談の記録はありません。<br>質問すると、ここに自動で記録されます。'}</div>`);
+  $('askHNote').textContent=cloud&&uid?'あなたのClaudeアカウントに保存しています（他の人には見えません）。別の端末でもこのページを開けば同じ記録が見られます。':'この端末のブラウザに保存しています。ブラウザの履歴やデータを消すと記録も消えます。';}
+function openHist(o){histOpen=o;$('askHist').classList.toggle('on',o);if(o)renderHist2();}
+$('askHistBtn').onclick=()=>openHist(true);$('askHX').onclick=()=>openHist(false);
+$('askHF').addEventListener('input',renderHist2);
+$('askHL').addEventListener('click',e=>{const c=e.target.closest('.cite');if(c){const h=findHead(c.dataset.k);if(h)goEl(h,'ask');return}
+  const a=e.target.closest('.again');if(a){openHist(false);askIn.value=a.dataset.q;ask();return}
+  const d=e.target.closest('.del');if(d){if(d.dataset.sure){delAsk(d.dataset.id)}else{d.dataset.sure=1;d.textContent='もう一度押すと削除';d.style.background='#ffebee'}}});
+async function initCloud(){
+  HIST=loadLocal();updHistBtn();
+  if(!(window.claude&&claude.use))return;
+  try{const [d,u]=await Promise.all([claude.use('db'),claude.use('user')]);if(!d||!u)return;const id=await u.id();if(!id)return;cloud=d;uid=id;
+    const snap=await histCol().orderBy('ts','desc').limit(500).get();
+    const map=new Map(HIST.map(x=>[x.id,x]));const fromCloud=new Set();
+    snap.docs.forEach(s=>{const v=s.data();if(v&&v.id){map.set(v.id,v);fromCloud.add(v.id)}});
+    const loc=HIST.filter(x=>!fromCloud.has(x.id));
+    HIST=[...map.values()].sort((a,b)=>b.ts-a.ts);saveLocal();updHistBtn();if(histOpen)renderHist2();
+    for(const x of loc){try{await histCol().doc(x.id).set(x)}catch(e){break}}
+  }catch(e){cloud=null}}
+
 /* ---------- init ---------- */
+$('back').onclick=goBack;
+buildSecs();welcome();setMode();initCloud();
+if(window.claude&&claude.use){claude.use('sample').then(f=>{sampleFn=f||null;setMode()}).catch(()=>{})}
 (()=>{const tp=book.querySelector('.tocpage');if(tp){[...tp.children].forEach((c,i)=>{c.classList.add(i===0?'tocstart':'tl');tp.before(c)});tp.remove()}
  const e=$('end');if(e)e.remove();units=[...book.children];})();
 blocks=[...book.querySelectorAll('.cover,.tocstart,p,h1,h2,h3,h4,figure,.tbl,.flow,.callout,.pg')];
@@ -1949,6 +2193,10 @@ let sec='0',h1n=0;
 renderHist();
 let rt;window.addEventListener('resize',()=>{const a=anchor();clearTimeout(rt);rt=setTimeout(()=>layout(a),150)});
 const saved=parseInt(load('a'));
-(document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(()=>{layout(isNaN(saved)?null:blocks[saved]||null)});
+const first=isNaN(saved)?null:blocks[saved]||null;layout(first);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{if(document.fonts.status==='loaded')layout(anchor())});
+/* splash */
+(()=>{const sp=$('splash');if(!sp)return;let done=false;const close=()=>{if(done)return;done=true;sp.classList.add('out');setTimeout(()=>sp.remove(),600)};
+ setTimeout(close,4100);sp.addEventListener('click',close);})();
 })();
 </script></body></html>
