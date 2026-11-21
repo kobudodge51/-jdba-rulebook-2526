@@ -4,7 +4,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#c2185b">
 <title>ドッジボール競技規則 2025-2026 電子書籍版</title>
-<link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"><link rel="icon" type="image/png" sizes="192x192" href="icon-192.png"><meta name="apple-mobile-web-app-title" content="JDBAルールブック"><meta name="application-name" content="JDBAルールブック"><link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png?v=3"><link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=3"><link rel="icon" type="image/png" sizes="192x192" href="icon-192.png?v=3"><meta name="apple-mobile-web-app-title" content="JDBAルールブック"><meta name="application-name" content="JDBAルールブック"><link rel="manifest" href="manifest.webmanifest?v=3">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;600&display=swap" rel="stylesheet">
 <style>
 :root{--accent:#c2185b;--accent2:#f8d7e6;--ink:#1d1d1f;--paper:#fffdfb;--fs:16px;--colh:600px;--ok:#2e7d32;--ng:#c62828}
@@ -172,6 +172,12 @@ body.t-read #nav.on{display:flex}#nav button{background:none;border:none;color:#
 .hi[open] summary{border-bottom:1px dashed #e3c4d2;background:#fdf5f8}.hi .ha{padding:10px 12px 0;line-height:1.7;font-size:14px}.hi .row{padding:0 12px 12px}
 #tAsk{position:absolute}
 .think{font-size:13px;color:#555;line-height:1.8}.think b{color:#7a0f3c;display:block;margin-bottom:2px}.think .now{color:#222;font-weight:700}.think .dots i{width:5px;height:5px}
+
+#a2hs{position:fixed;inset:0;z-index:60;background:#0007;display:none;align-items:flex-end;justify-content:center;padding:12px;padding-bottom:calc(12px + env(safe-area-inset-bottom))}#a2hs.on{display:flex;animation:fadeup .35s ease-out}
+@keyframes fadeup{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.a2-card{background:#fff;border-radius:18px;padding:16px;width:100%;max-width:440px;max-height:88vh;overflow:auto;box-shadow:0 10px 30px #0005}
+.a2-top{display:flex;gap:12px;align-items:center;margin-bottom:12px}.a2-top img{width:52px;height:52px;border-radius:12px;box-shadow:0 1px 4px #0003;flex:none}.a2-top b{font-size:16px}
+.a2-body ol{margin:12px 0 8px;padding-left:1.4em;line-height:1.75;font-size:14.5px}.a2-body li{margin-bottom:6px}
 </style></head><body class="t-read">
 <div id="splash" aria-label="起動画面">
  <div class="glow"></div><div class="lat"></div>
@@ -186,7 +192,7 @@ body.t-read #nav.on{display:flex}#nav button{background:none;border:none;color:#
 
 <div id="app">
  <div id="bar"><button id="bToc" class="rd" aria-label="目次">☰</button><button id="back"><b>←</b><span></span></button><div class="ttl" id="ttl">ドッジボール競技規則 2025-2026</div>
-  <button class="fs rd" id="bSm" aria-label="文字を小さく">A-</button><button class="fs rd" id="bLg" aria-label="文字を大きく">A+</button></div>
+  <button class="rd" id="bA2" aria-label="ホーム画面に追加" style="font-size:18px">📲</button><button class="fs rd" id="bSm" aria-label="文字を小さく">A-</button><button class="fs rd" id="bLg" aria-label="文字を大きく">A+</button></div>
  <div id="main">
   <div id="view"><div id="book"><section class="cover"><div class="cv-in">
 <div class="kicker">ドッジボール競技規則</div>
@@ -1808,6 +1814,31 @@ body.t-read #nav.on{display:flex}#nav button{background:none;border:none;color:#
  </div>
  <nav id="tabs"><button data-t="read" class="on"><b>📖</b>読む</button><button data-t="search"><b>🔍</b>検索</button><button data-t="quiz"><b>✅</b>問題集</button><button data-t="ask"><b>💬</b>ルール相談</button></nav>
 </div>
+<div id="a2hs" aria-label="ホーム画面に追加"><div class="a2-card">
+ <div class="a2-top"><img id="a2icon" alt=""><div><b>JDBAルールブック</b><div class="small">ホーム画面に追加すると、アプリのようにすぐ開けます</div></div><button class="x" id="a2x" aria-label="閉じる">×</button></div>
+ <div class="seg" id="a2seg"><button data-v="ios" class="on"> iPhone</button><button data-v="and">Android</button></div>
+ <div class="a2-body" id="a2ios">
+  <ol>
+   <li><b>Safari</b>でこのページを開いています（LINEなどの中で開いている場合は、右下や右上のメニューから「<b>Safariで開く</b>」を選んでください）</li>
+   <li>画面の下（または上）にある<b>共有ボタン</b> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0a84ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><path d="M6 11H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-1"/></svg> をタップ</li>
+   <li>出てきたメニューを上にスクロールして「<b>ホーム画面に追加</b>」をタップ</li>
+   <li>名前が「<b>JDBAルールブック</b>」になっているのを確認して、右上の「<b>追加</b>」をタップ</li>
+  </ol>
+  <div class="small">ホーム画面にアイコンが出たら完了です。次からはアイコンをタップするだけで開けます。</div>
+ </div>
+ <div class="a2-body" id="a2and" style="display:none">
+  <button class="btn" id="a2install" style="display:none;width:100%;margin-bottom:10px">ワンタップでホーム画面に追加する</button>
+  <ol>
+   <li><b>Chrome</b>でこのページを開いています（LINEなどの中で開いている場合は、右上のメニューから「<b>他のアプリで開く</b>」→「<b>Chrome</b>」を選んでください）</li>
+   <li>画面右上の <b>︙</b>（縦に点が3つ）をタップ</li>
+   <li>「<b>ホーム画面に追加</b>」または「<b>アプリをインストール</b>」をタップ</li>
+   <li>名前が「<b>JDBAルールブック</b>」になっているのを確認して、「<b>追加</b>」（または「<b>インストール</b>」）をタップ</li>
+   <li>確認が出たら、もう一度「<b>追加</b>」をタップ</li>
+  </ol>
+  <div class="small">ホーム画面にアイコンが出たら完了です。次からはアイコンをタップするだけで開けます。</div>
+ </div>
+ <div class="row" style="justify-content:space-between;margin-top:12px"><button class="chip" id="a2never">今後表示しない</button><button class="btn" id="a2ok">閉じる</button></div>
+</div></div>
 <div id="scrim"></div>
 <div id="toc"><div class="ph">目次<button class="x" id="tocX">×</button></div><div class="lst"><a class="t2" href="#s2">はじめに</a><a class="t1" href="#s3">公式ルール Official Rule</a><a class="t2" href="#s4">【第1章】チーム</a><a class="t3" href="#s5">第101条　クラス</a><a class="t3" href="#s6">第102条　チーム編成</a><a class="t3" href="#s7">第103条　キャプテン</a><a class="t3" href="#s8">第104条　プレイヤーのユニフォーム</a><a class="t3" href="#s9">第105条　スターティングラインナップ</a><a class="t3" href="#s10">第106条　プレイヤーの交代（メンバーチェンジ）</a><a class="t3" href="#s11">第107条　緊急プレイヤー</a><a class="t3" href="#s12">第108条　抗議・アピール</a><a class="t2" href="#s13">【第2章】競技場</a><a class="t3" href="#s14">第201条　コート及びゾーン</a><a class="t3" href="#s15">第202条　コートサイズ</a><a class="t3" href="#s16">第203条　センターサークル</a><a class="t3" href="#s17">第204条　プレイヤーズベンチ</a><a class="t3" href="#s18">第205条　ペナルティーベンチ</a><a class="t2" href="#s19">【第3章】用具</a><a class="t3" href="#s20">第301条　ボール</a><a class="t3" href="#s21">第302条　禁止用具等</a><a class="t2" href="#s22">【第4章】罰則・指導</a><a class="t3" href="#s23">第401条　罰則</a><a class="t3" href="#s24">第402条　警告</a><a class="t3" href="#s25">第403条　退場</a><a class="t3" href="#s26">第404条　失格</a><a class="t3" href="#s27">第405条　指導</a><a class="t2" href="#s28">【第5章】ゲームオフィシャル</a><a class="t3" href="#s29">第501条　ゲームオフィシャルの任命</a><a class="t3" href="#s30">第502条　コートマスター</a><a class="t3" href="#s31">第503条　記録員</a><a class="t3" href="#s32">第504条　計時員</a><a class="t2" href="#s33">【第6章】審判員</a><a class="t3" href="#s34">第601条　審判員の任命</a><a class="t3" href="#s35">第602条　主審</a><a class="t3" href="#s36">第603条　副審</a><a class="t3" href="#s37">第604条　線審</a><a class="t2" href="#s38">【第7章】競技方法</a><a class="t3" href="#s39">第701条　試合時間</a><a class="t3" href="#s40">第702条　試合形式</a><a class="t3" href="#s41">第703条　試合開始</a><a class="t3" href="#s42">第704条　試合終了</a><a class="t3" href="#s43">第705条　試合放棄・不戦勝</a><a class="t3" href="#s44">第706条　不完全となったチーム</a><a class="t3" href="#s45">第707条　セットアップ</a><a class="t3" href="#s46">第708条　コートチェンジ</a><a class="t3" href="#s47">第709条　オフィシャルタイムアウト</a><a class="t3" href="#s48">第710条　試合の勝敗</a><a class="t2" href="#s49">【第8章】プレイの規定</a><a class="t3" href="#s50">第801条　キャッチ</a><a class="t3" href="#s51">第802条　ワンタッチ</a><a class="t3" href="#s52">第803条　アタック</a><a class="t3" href="#s53">第804条　パス</a><a class="t3" href="#s54">第805条　アウト</a><a class="t3" href="#s55">第806条　アシストキャッチ</a><a class="t3" href="#s56">第807条　セーフ</a><a class="t3" href="#s57">第808条　ヘルドボール</a><a class="t3" href="#s58">第809条　ボールデッド</a><a class="t3" href="#s59">第810条　ボールの支配権</a><a class="t3" href="#s60">第811条　内外野への移動</a><a class="t3" href="#s61">第812条　内野復帰権の放棄</a><a class="t3" href="#s62">第813条　プレイヤー間のボールの受け渡し</a><a class="t3" href="#s63">第814条　ジャンプボール</a><a class="t3" href="#s64">第815条　試合再開</a><a class="t3" href="#s65">第816条　内野復帰権</a><a class="t2" href="#s66">【第9章】ファール</a><a class="t3" href="#s67">第901条　ファール</a><a class="t3" href="#s68">第902条　ファイブパス</a><a class="t3" href="#s69">第903条　ダブルパス</a><a class="t3" href="#s70">第904条　オーバーライン</a><a class="t3" href="#s71">第905条　ホールディング</a><a class="t3" href="#s72">第906条　ヘッドアタック</a><a class="t3" href="#s73">第907条　タッチ・ザ・ボディー</a><a class="t3" href="#s74">第908条　ダブルタッチ</a><a class="t3" href="#s75">第909条　インターフェアー</a><a class="t3" href="#s76">第910条　キープ・フォー・ファイブ</a><a class="t3" href="#s77">第911条　フライングタップ</a><a class="t3" href="#s78">第912条　ダブルタップ</a><a class="t3" href="#s79">第913条　ジャンパーアタック</a><a class="t3" href="#s80">第914条　ジャンパーキャッチ</a><a class="t3" href="#s81">第915条　フライングスロー</a><a class="t3" href="#s82">第916条　アウトプレイ</a><a class="t3" href="#s83">第917条　イリーガル・スロー</a><a class="t3" href="#s84">第918条　イリーガル・キャッチ</a><a class="t3" href="#s85">第919条　テクニカルファール</a><a class="t3" href="#s86">第920条　ファールの連続・重複</a><a class="t3" href="#s87">第921条　アドバンテージ</a><a class="t1" href="#s88">主審・副審・線審の動作</a><a class="t2" href="#s89">主審の動作</a><a class="t2" href="#s90">副審の動作</a><a class="t2" href="#s91">線審の動作</a><a class="t1" href="#s92">審判テキストブック Official Referee Text Book</a><a class="t2" href="#s93">第1章　チーム</a><a class="t3" href="#s94">クラス</a><a class="t3" href="#s95">チーム編成</a><a class="t3" href="#s96">スターティングラインナップ</a><a class="t3" href="#s97">プレイヤーの交代（メンバーチェンジ）</a><a class="t2" href="#s98">第2章　競技場</a><a class="t3" href="#s99">コートの作成</a><a class="t3" href="#s100">プレイヤーズベンチ</a><a class="t2" href="#s101">第3章　用具</a><a class="t2" href="#s102">第4章　罰則・指導</a><a class="t2" href="#s103">第5章　ゲームオフィシャル</a><a class="t2" href="#s104">第6章　審判員</a><a class="t3" href="#s105">審判員の心得</a><a class="t3" href="#s106">審判員の事前チェック</a><a class="t3" href="#s107">主審</a><a class="t3" href="#s108">主審の手順</a><a class="t3" href="#s109">試合終了時の内野人数の報告について</a><a class="t3" href="#s110">主審は全てのファールを判定する</a><a class="t3" href="#s111">主審の留意点</a><a class="t3" href="#s112">副審</a><a class="t3" href="#s114">線審</a><a class="t2" href="#s121">第7章　競技方法</a><a class="t3" href="#s122">オフィシャルタイムアウト</a><a class="t3" href="#s123">オフィシャルタイムアウト時の計時の処理</a><a class="t3" href="#s124">オフィシャルタイムアウト後のボールの支配権</a><a class="t3" href="#s125">オフィシャルタイムアウト時のボールの支配権</a><a class="t3" href="#s126">ヴィクトリーポイント（Vポイント）ゲーム</a><a class="t2" href="#s127">第8章　プレイの規定</a><a class="t3" href="#s128">アシストキャッチ</a><a class="t3" href="#s129">アウト判定後、外野プレイヤーが内野に復帰できない条件</a><a class="t3" href="#s130">内外野への移動</a><a class="t3" href="#s131">内野への復帰について</a><a class="t3" href="#s132">ジャンプボール</a><a class="t3" href="#s133">試合再開</a><a class="t3" href="#s134">試合再開時の審判員の留意点</a><a class="t3" href="#s135">アタックについて</a><a class="t3" href="#s136">競技規則・第809条④の解釈について</a><a class="t2" href="#s137">第9章　ファール</a><a class="t3" href="#s138">ファール</a><a class="t3" href="#s139">ファイブパス</a><a class="t3" href="#s140">ダブルパス</a><a class="t3" href="#s141">オーバーライン</a><a class="t3" href="#s142">ホールディング</a><a class="t3" href="#s143">ヘッドアタック</a><a class="t3" href="#s144">タッチ・ザ・ボディー</a><a class="t3" href="#s145">ダブルタッチ</a><a class="t3" href="#s146">インターフェアー</a><a class="t3" href="#s147">キープ・フォー・ファイブ</a><a class="t3" href="#s148">ダブルタップ</a><a class="t3" href="#s149">ジャンパーキャッチ</a><a class="t3" href="#s150">ジャンパーアタック</a><a class="t3" href="#s151">フライングスロー</a><a class="t3" href="#s152">アウトプレイ</a><a class="t3" href="#s153">イリーガル・スロー</a><a class="t3" href="#s154">イリーガル・キャッチ</a><a class="t3" href="#s155">ファールの連続・重複、他</a><a class="t3" href="#s156">連続してファールが起きた時の処置</a><a class="t3" href="#s157">テクニカルファール</a><a class="t3" href="#s158">アドバンテージ</a><a class="t2" href="#s159">主審・副審・線審の動作</a><a class="t2" href="#s160">各審判員、競技委員長、審判部長に</a><a class="t2" href="#s161">審判員の手順（ベンチ前整列〜セットアップ）</a><a class="t2" href="#s162">線審の動き（試合中）</a><a class="t2" href="#s163">補足・追加事項</a><a class="t3" href="#s164">ライン際でのインプレイゾーン及びボールデッドゾーンの解釈</a><a class="t2" href="#s165">審判統一基本動作と役割</a><a class="t3" href="#s166">【主審】</a><a class="t3" href="#s167">【副審】</a><a class="t3" href="#s168">【線審】</a><a class="t3" href="#s169">【ゲームオフィシャル】</a><a class="t1" href="#s170">実技統一事項及び統一基本動作</a><a class="t2" href="#s171">実技統一事項</a><a class="t3" href="#s172">「オフィシャルタイムアウト」後の対応について</a><a class="t3" href="#s173">オフィシャルタイムアウト継続中に、再度協議が必要と判断した場合</a><a class="t3" href="#s174">ファール発生に伴い、アシストキャッチ不成立となり、「アウト」を確定させる場合</a><a class="t3" href="#s175">主審及び副審のコートに正対して行う動作とプレイヤーに向けて行う動作</a><a class="t3" href="#s176">頭部付近にボールが当たった場合（最終判定がヘッドアタックに至ったとき）</a><a class="t2" href="#s177">統一基本動作</a><a class="t3" href="#s178">1. 「指導」「警告」「退場」「失格」での各審判員の動き</a><a class="t3" href="#s179">2. 複数セットの試合で、セット終了時及び次セット開始前の各審判員の動作について</a><a class="t3" href="#s180">3. 線審のオフィシャルタイムアウト時の動作</a><a class="t3" href="#s181">4. 副審のダブルタッチファール判定について</a><a class="t3" href="#s182">5. 副審のアドバンテージについて</a><a class="t3" href="#s183">6. タイムイン時の定位置</a><a class="t3" href="#s184">7. 「警告」イエローカードを提示する手順及び仕方（プレイヤー・監督等）</a><a class="t3" href="#s185">8. 「退場」レッドカードを提示する手順及び仕方（プレイヤー・監督等）</a><a class="t3" href="#s186">9. 「失格」を宣告するとき</a><a class="t3" href="#s187">10. 「指導」を与える場合</a><a class="t3" href="#s188">11. 不完全となった場合</a><a class="t3" href="#s189">12. 「試合開始前」の各審判員への確認・ジャンプボールの手順</a><a class="t3" href="#s190">13. 「ジャンプボール」のやり直し</a><a class="t3" href="#s191">14. 「ヘルドボール」の対応</a><a class="t3" href="#s192">15. 「ヘッドアタック」後の報告</a><a class="t3" href="#s193">16. 「緊急プレイヤー」との交代方法</a><a class="t3" href="#s194">17. 「ヴィクトリーポイント（Vポイント）ゲーム」採用の場合</a><a class="t3" href="#s195">18. 「複数セット試合」のセットカウント報告について</a><a class="t2" href="#s196">【ケーススタディ：No1】</a><a class="t3" href="#s197">1. アウトプレイをしているプレイヤーに対する投球</a><a class="t3" href="#s198">2-1. アウトプレイをしているプレイヤーに対するヘッドアタック</a><a class="t3" href="#s199">2-2. ラインをまたいでいるまたは踏んでいるプレイヤーに対するヘッドアタック</a><a class="t2" href="#s200">【ケーススタディ：No2】</a><a class="t3" href="#s201">ジャンプボール（タップ）後のジャンパーに関わる事象について</a><a class="t1" href="#s202">JDBA公式ルールに関するお問い合わせ</a><a class="t1" href="#s203">奥付</a></div></div>
 <div class="toast" id="toast"></div>
@@ -2181,6 +2212,23 @@ async function initCloud(){
   }catch(e){cloud=null}}
 
 /* ---------- init ---------- */
+
+/* ---------- ホーム画面に追加の案内 ---------- */
+(()=>{const box=$('a2hs');const ua=navigator.userAgent;const isIOS=/iPhone|iPad|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);const isAnd=/Android/.test(ua);
+ const standalone=window.navigator.standalone||matchMedia('(display-mode: standalone)').matches;
+ const ic=document.querySelector('link[rel="apple-touch-icon"]');if(ic)$('a2icon').src=ic.href;
+ function tab(v){$('a2seg').querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));$('a2ios').style.display=v==='ios'?'':'none';$('a2and').style.display=v==='and'?'':'none'}
+ $('a2seg').querySelectorAll('button').forEach(b=>b.onclick=()=>tab(b.dataset.v));
+ function open(){tab(isAnd?'and':'ios');box.classList.add('on')}
+ function close(){box.classList.remove('on')}
+ $('a2x').onclick=close;$('a2ok').onclick=close;box.addEventListener('click',e=>{if(e.target===box)close()});
+ $('a2never').onclick=()=>{store('a2never','1');close();toast('上の 📲 ボタンからいつでも見られます')};
+ $('bA2').onclick=open;
+ let dp=null;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();dp=e;$('a2install').style.display='block'});
+ $('a2install').onclick=async()=>{if(!dp)return;dp.prompt();try{const r=await dp.userChoice;if(r.outcome==='accepted'){close();toast('ホーム画面に追加しました')}}catch(e){}dp=null;$('a2install').style.display='none'};
+ if(standalone){$('bA2').style.display='none';return}
+ if((isIOS||isAnd)&&!load('a2never')){setTimeout(()=>{if(!document.getElementById('splash'))open();else{const t=setInterval(()=>{if(!document.getElementById('splash')){clearInterval(t);setTimeout(open,600)}},300)}},500)}
+})();
 $('back').onclick=goBack;
 buildSecs();welcome();setMode();initCloud();
 if(window.claude&&claude.use){claude.use('sample').then(f=>{sampleFn=f||null;setMode()}).catch(()=>{})}
